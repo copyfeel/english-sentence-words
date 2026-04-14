@@ -8,14 +8,12 @@
 
 .screen {
   display: none;
-  flex-direction: column;
-  min-height: 100dvh;
-  /* iOS Safari 동적 뷰포트 대응 */
-  min-height: 100dvh;
 }
 
 .screen.active {
   display: flex;
+  flex-direction: column;   /* 모든 화면 공통 */
+  min-height: 100dvh;
   animation: screenIn 0.22s ease-out;
 }
 

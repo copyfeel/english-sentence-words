@@ -567,10 +567,9 @@
  */
 #screen-game {
   background: var(--clr-bg);
-  /* 화면 전체를 flex column으로 — 스크롤 없음 */
-  display: flex;
-  flex-direction: column;
+  /* display:flex + flex-direction:column 은 .screen.active 에서 적용 */
   height: 100dvh;
+  min-height: unset;   /* .screen.active의 min-height:100dvh 무력화 */
   overflow: hidden;
 }
 
