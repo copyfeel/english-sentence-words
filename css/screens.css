@@ -414,38 +414,102 @@
   white-space: nowrap;
 }
 
-/* 레벨 필터 버튼 그룹 (다중 선택) */
-.filter-lv-group {
-  display: flex;
-  gap: 4px;
-  align-items: center;
+/* 레벨 필터 드롭다운 */
+.filter-lv-dropdown {
+  position: relative;
 }
-.filter-lv-btn {
-  padding: 4px 10px;
+.filter-lv-trigger {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
   border-radius: var(--radius-sm);
   border: 1.5px solid var(--clr-border);
   background: var(--clr-bg);
-  font-size: 11px;
-  font-weight: 700;
+  font-size: 12px;
+  font-weight: 600;
   color: var(--clr-text-muted);
-  transition: all 0.15s;
   cursor: pointer;
-  line-height: 1.4;
+  transition: all 0.15s;
+  white-space: nowrap;
 }
-.filter-lv-btn:hover {
+.filter-lv-trigger:hover,
+.filter-lv-trigger[aria-expanded="true"],
+.filter-lv-trigger.has-filter {
   border-color: var(--clr-primary);
   color: var(--clr-primary);
   background: var(--clr-primary-light);
 }
-/* 공통 active 상태 */
-.filter-lv-btn.active {
-  border-width: 2px;
-  font-weight: 800;
+.filter-lv-arrow {
+  flex-shrink: 0;
+  transition: transform 0.2s;
+}
+.filter-lv-trigger[aria-expanded="true"] .filter-lv-arrow {
+  transform: rotate(180deg);
+}
+.filter-lv-panel {
+  display: none;
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  min-width: 130px;
+  background: var(--clr-surface);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-md);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+  z-index: 300;
+  overflow: hidden;
+}
+.filter-lv-panel.open {
+  display: block;
+}
+.filter-lv-opt {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--clr-text);
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: background 0.1s;
+}
+.filter-lv-opt:hover {
+  background: var(--clr-bg);
+}
+.filter-lv-check {
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+  border: 1.5px solid var(--clr-border);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+  color: transparent;
+  font-size: 10px;
+  font-weight: 900;
+}
+.filter-lv-opt.active .filter-lv-check {
+  background: var(--clr-primary);
+  border-color: var(--clr-primary);
+  color: white;
+}
+.filter-lv-opt.active .filter-lv-check::after {
+  content: '✓';
 }
 /* 레벨별 active 색상 */
-.filter-lv-btn[data-level="1"].active { border-color: #059669; background: #D1FAE5; color: #065F46; }
-.filter-lv-btn[data-level="2"].active { border-color: #D97706; background: #FEF3C7; color: #92400E; }
-.filter-lv-btn[data-level="3"].active { border-color: #DC2626; background: #FEE2E2; color: #991B1B; }
+.filter-lv-opt[data-level="1"].active { background: #ECFDF5; color: #065F46; }
+.filter-lv-opt[data-level="1"].active .filter-lv-check { background: #059669; border-color: #059669; }
+.filter-lv-opt[data-level="2"].active { background: #FFFBEB; color: #92400E; }
+.filter-lv-opt[data-level="2"].active .filter-lv-check { background: #D97706; border-color: #D97706; }
+.filter-lv-opt[data-level="3"].active { background: #FEF2F2; color: #991B1B; }
+.filter-lv-opt[data-level="3"].active .filter-lv-check { background: #DC2626; border-color: #DC2626; }
 
 /* 게임 출제 문제 수 표시 */
 .filter-game-count {

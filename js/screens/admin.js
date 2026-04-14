@@ -44,6 +44,7 @@ export function initAdmin() {
     },
     onLeave() {
       saveSettings(_settings);
+      _closeFilterDropdown();
     },
   });
 }
@@ -61,11 +62,36 @@ function _applySettings() {
 }
 
 function _applyFilterLevels() {
-  document.querySelectorAll('.filter-lv-btn').forEach(btn => {
-    const lv = Number(btn.dataset.level);
-    btn.classList.toggle('active', _filterLevels.has(lv));
+  // 트리거 레이블 업데이트
+  const label   = document.getElementById('filter-lv-label');
+  const trigger = document.getElementById('filter-lv-trigger');
+  if (label) {
+    label.textContent = _filterLevels.size === 0
+      ? '레벨 전체'
+      : [..._filterLevels].sort().map(l => `Lv.${l}`).join('+');
+  }
+  if (trigger) trigger.classList.toggle('has-filter', _filterLevels.size > 0);
+
+  // 드롭다운 옵션 active 상태
+  document.querySelectorAll('.filter-lv-opt').forEach(btn => {
+    const level = btn.dataset.level;
+    btn.classList.toggle(
+      'active',
+      level === 'all' ? _filterLevels.size === 0 : _filterLevels.has(Number(level))
+    );
   });
+
   _updateGameCount();
+}
+
+function _openFilterDropdown() {
+  document.getElementById('filter-lv-panel').classList.add('open');
+  document.getElementById('filter-lv-trigger').setAttribute('aria-expanded', 'true');
+}
+
+function _closeFilterDropdown() {
+  document.getElementById('filter-lv-panel').classList.remove('open');
+  document.getElementById('filter-lv-trigger').setAttribute('aria-expanded', 'false');
 }
 
 function _updateGameCount() {
@@ -279,28 +305,36 @@ function _bindList() {
     _updateDeleteBtn();
   });
 
-  // 레벨 필터 (다중 선택 토글)
-  // - 버튼 클릭 시: 시각 상태만 토글, 이벤트 전파 차단
-  // - 영역 밖 클릭 시: document 핸들러에서 목록 확정 갱신
-  document.getElementById('filter-level-btns').addEventListener('click', e => {
-    e.stopPropagation(); // document 핸들러로 전파 차단 (버튼 사이 여백 클릭 포함)
-    const btn = e.target.closest('.filter-lv-btn');
-    if (!btn) return;
-    const level = Number(btn.dataset.level);
-    if (_filterLevels.has(level)) {
-      _filterLevels.delete(level);
-    } else {
-      _filterLevels.add(level);
-    }
-    // 버튼 active 상태와 게임 카운트 배지만 갱신 (목록은 즉시 변경 안 함)
-    _applyFilterLevels();
+  // 레벨 필터 드롭다운 — 트리거 클릭: 열기/닫기
+  document.getElementById('filter-lv-trigger').addEventListener('click', e => {
+    e.stopPropagation();
+    const isOpen = document.getElementById('filter-lv-panel').classList.contains('open');
+    _closeFilterDropdown();
+    if (!isOpen) _openFilterDropdown();
   });
 
-  // 레벨 필터 영역 밖 클릭/터치 시 선택 확정 → 목록 갱신
+  // 레벨 필터 드롭다운 — 옵션 클릭: 즉시 리스트 갱신
+  document.getElementById('filter-lv-panel').addEventListener('click', e => {
+    e.stopPropagation();
+    const btn = e.target.closest('.filter-lv-opt');
+    if (!btn) return;
+    const level = btn.dataset.level;
+    if (level === 'all') {
+      _filterLevels.clear();
+    } else {
+      const lv = Number(level);
+      if (_filterLevels.has(lv)) _filterLevels.delete(lv);
+      else                         _filterLevels.add(lv);
+    }
+    saveFilterLevels(_filterLevels);
+    _applyFilterLevels();
+    _renderList();
+  });
+
+  // 드롭다운 외부 클릭 시 패널 닫기
   document.addEventListener('click', () => {
     if (router.current !== 'admin') return;
-    saveFilterLevels(_filterLevels);
-    _renderList();
+    _closeFilterDropdown();
   });
 
   // 알파벳 정렬

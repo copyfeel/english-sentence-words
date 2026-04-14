@@ -121,10 +121,27 @@
                 <input type="checkbox" id="check-all" aria-label="전체 선택">
                 <span class="check-label">전체</span>
               </label>
-              <div id="filter-level-btns" class="filter-lv-group" role="group" aria-label="레벨 필터">
-                <button class="filter-lv-btn" data-level="1" type="button">Lv.1</button>
-                <button class="filter-lv-btn" data-level="2" type="button">Lv.2</button>
-                <button class="filter-lv-btn" data-level="3" type="button">Lv.3</button>
+              <div class="filter-lv-dropdown" id="filter-lv-dropdown">
+                <button class="filter-lv-trigger" id="filter-lv-trigger" type="button" aria-haspopup="true" aria-expanded="false">
+                  <span id="filter-lv-label">레벨 전체</span>
+                  <svg class="filter-lv-arrow" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"/>
+                  </svg>
+                </button>
+                <div class="filter-lv-panel" id="filter-lv-panel">
+                  <button class="filter-lv-opt" data-level="all" type="button">
+                    <span class="filter-lv-check"></span>전체선택
+                  </button>
+                  <button class="filter-lv-opt" data-level="1" type="button">
+                    <span class="filter-lv-check"></span>Lv.1
+                  </button>
+                  <button class="filter-lv-opt" data-level="2" type="button">
+                    <span class="filter-lv-check"></span>Lv.2
+                  </button>
+                  <button class="filter-lv-opt" data-level="3" type="button">
+                    <span class="filter-lv-check"></span>Lv.3
+                  </button>
+                </div>
               </div>
               <span id="filter-game-count" class="filter-game-count" style="display:none"></span>
             </div>
