@@ -5,7 +5,8 @@ import { router }           from '../router.js';
 import { tts, TTS }         from '../components/tts.js';
 import {
   getSentences, addSentence, updateSentence, deleteSentence,
-  setSentences, getSettings, saveSettings
+  setSentences, getSettings, saveSettings,
+  getSelectedIds, saveSelectedIds, removeFromSelected,
 } from '../store.js';
 import { exportJSON, exportCSV, importFile } from '../utils/exportImport.js';
 import { uid, sanitize, showToast, levelClass, levelLabel, parseLevel } from '../utils/helpers.js';
@@ -33,8 +34,11 @@ export function initAdmin() {
   router.register('admin', {
     onEnter() {
       _settings = getSettings();
+      // 저장된 선택 ID 복원
+      _selectedIds = new Set(getSelectedIds());
       _applySettings();
       _renderList();
+      _updateDeleteBtn();
     },
     onLeave() {
       saveSettings(_settings);
@@ -248,6 +252,7 @@ function _bindList() {
       if (checked) _selectedIds.add(s.id);
       else         _selectedIds.delete(s.id);
     });
+    saveSelectedIds(_selectedIds);
     _renderList();
     _updateDeleteBtn();
   });
@@ -271,6 +276,7 @@ function _bindList() {
     if (!confirm(`선택한 ${_selectedIds.size}개 문제를 삭제할까요?`)) return;
     _selectedIds.forEach(id => deleteSentence(id));
     _selectedIds.clear();
+    saveSelectedIds(_selectedIds);
     _updateDeleteBtn();
     _renderList();
     showToast('🗑️ 삭제했습니다.');
@@ -326,6 +332,7 @@ function _renderList() {
     row.querySelector('input[type="checkbox"]').addEventListener('change', e => {
       if (e.target.checked) _selectedIds.add(s.id);
       else                   _selectedIds.delete(s.id);
+      saveSelectedIds(_selectedIds);  // 즉시 저장
       _updateDeleteBtn();
       _syncCheckAll();
     });
@@ -338,6 +345,7 @@ function _renderList() {
       if (!confirm('이 문제를 삭제할까요?')) return;
       deleteSentence(s.id);
       _selectedIds.delete(s.id);
+      saveSelectedIds(_selectedIds);  // 삭제된 ID도 선택 목록에서 제거
       _updateDeleteBtn();
       _renderList();
       showToast('🗑️ 삭제했습니다.');

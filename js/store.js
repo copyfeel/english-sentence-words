@@ -3,9 +3,10 @@
 ══════════════════════════════════════ */
 
 const KEYS = {
-  SENTENCES: 'esg_sentences',
-  SETTINGS:  'esg_settings',
-  WRONG:     'esg_wrong_answers',
+  SENTENCES:    'esg_sentences',
+  SETTINGS:     'esg_settings',
+  WRONG:        'esg_wrong_answers',
+  SELECTED_IDS: 'esg_selected_ids',  // 게임에 출제할 문제 ID 목록
 };
 
 function _get(key) {
@@ -80,4 +81,19 @@ export function saveWrongAnswer(item) {
 
 export function clearWrongAnswers() {
   _set(KEYS.WRONG, []);
+}
+
+/* ─── 출제 선택 문제 ID ─────────────── */
+export function getSelectedIds() {
+  return _get(KEYS.SELECTED_IDS) ?? [];
+}
+
+export function saveSelectedIds(ids) {
+  _set(KEYS.SELECTED_IDS, [...ids]);
+}
+
+/** 삭제된 문장 ID를 선택 목록에서도 제거 */
+export function removeFromSelected(id) {
+  const ids = getSelectedIds().filter(i => i !== id);
+  _set(KEYS.SELECTED_IDS, ids);
 }

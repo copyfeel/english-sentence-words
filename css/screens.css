@@ -132,6 +132,18 @@
   box-shadow: 0 4px 16px rgba(0,0,0,0.2);
 }
 
+/* 홈 화면 문제 수 배지 */
+.home-count-badge {
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 16px;
+  border-radius: var(--radius-full);
+  letter-spacing: 0.02em;
+}
+.home-count-badge.none     { color: rgba(255,255,255,0.4); }
+.home-count-badge.all      { color: rgba(255,255,255,0.7); background: rgba(255,255,255,0.1); }
+.home-count-badge.selected { color: #6EE7B7; background: rgba(16,185,129,0.2); }
+
 
 /* ══════════════════════════════════════
    화면 2: 관리자 화면
@@ -444,12 +456,21 @@
 .sentence-item:hover {
   background: var(--clr-bg);
 }
-.col-check { display: flex; align-items: center; }
+.col-check {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* 모바일 터치 영역 확보 */
+  min-height: 44px;
+}
 .col-check input[type="checkbox"] {
-  width: 15px;
-  height: 15px;
+  width: 18px;
+  height: 18px;
   accent-color: var(--clr-primary);
   cursor: pointer;
+  /* 터치 영역 확장 (시각적 크기 유지하면서 터치 영역만 확대) */
+  padding: 12px;
+  margin: -12px;
 }
 .col-num {
   font-size: 12px;
@@ -533,18 +554,40 @@
 /* ══════════════════════════════════════
    화면 3: 문제풀이 화면
 ══════════════════════════════════════ */
+/*
+ * iOS Safari 핵심 패턴:
+ *   screen(flex col, 고정 높이)
+ *     ├─ .game-content  ← flex:1, overflow-y:auto (스크롤 영역)
+ *     │    └─ .game-wrap (콘텐츠)
+ *     └─ .game-footer   ← flex-shrink:0 (항상 하단 고정)
+ *
+ * position:fixed 를 overflow:auto 안에 쓰면 iOS Safari에서
+ * fixed 가 무시되고 같이 스크롤되는 버그가 있어서
+ * flex 레이아웃으로 대체합니다.
+ */
 #screen-game {
   background: var(--clr-bg);
+  /* 화면 전체를 flex column으로 — 스크롤 없음 */
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+/* 스크롤 가능한 콘텐츠 영역 */
+.game-content {
+  flex: 1;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
+  /* 드래그 중 스크롤 방지는 word-chip touch-action:none 으로 처리 */
 }
 
 .game-wrap {
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-height: 100dvh;
-  padding: calc(var(--sat) + 16px) calc(var(--sar) + 20px) calc(var(--sab) + 16px) calc(var(--sal) + 20px);
+  min-height: 100%;
+  padding: calc(var(--sat) + 16px) calc(var(--sar) + 20px) 20px calc(var(--sal) + 20px);
   gap: 16px;
   max-width: 600px;
   margin: 0 auto;
@@ -710,14 +753,19 @@
   background: var(--clr-secondary);
 }
 
-/* 게임 푸터 */
+/* 게임 푸터 — flex 레이아웃으로 하단 고정 (iOS 완전 호환) */
 .game-footer {
+  flex-shrink: 0;          /* 절대 축소 안 됨 — 항상 하단에 위치 */
   display: flex;
   align-items: center;
-  width: 100%;
-  padding: 8px 0;
-  gap: 16px;
   justify-content: space-between;
+  gap: 16px;
+  padding: 12px calc(var(--sar) + 24px) calc(var(--sab) + 12px) calc(var(--sal) + 24px);
+  background: rgba(241, 245, 249, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(226, 232, 240, 0.9);
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.08);
 }
 .game-footer-spacer { width: 48px; }
 

@@ -42,6 +42,7 @@
             <path d="M8 5v14l11-7z"/>
           </svg>
         </button>
+        <div id="home-question-count" class="home-count-badge none">등록된 문제 없음</div>
       </div>
     </section>
 
@@ -157,39 +158,44 @@
          화면 3: 문제풀이 화면
     ══════════════════════════════ -->
     <section id="screen-game" class="screen">
-      <div class="game-wrap">
 
-        <!-- 카운터 -->
-        <div class="game-counter-row">
-          <span id="game-counter" class="game-counter">1 / 1</span>
+      <!-- 스크롤 영역 (푸터 위) -->
+      <div class="game-content">
+        <div class="game-wrap">
+
+          <!-- 카운터 -->
+          <div class="game-counter-row">
+            <span id="game-counter" class="game-counter">1 / 1</span>
+          </div>
+
+          <!-- 타이머 -->
+          <div id="timer-display" class="timer-display">
+            <svg class="timer-ring" viewBox="0 0 100 100" aria-hidden="true">
+              <circle class="timer-ring-bg" cx="50" cy="50" r="44"/>
+              <circle id="timer-ring-fill" class="timer-ring-fill" cx="50" cy="50" r="44"/>
+            </svg>
+            <span id="timer-text" class="timer-text">15</span>
+          </div>
+
+          <!-- 한글 문장 -->
+          <div id="korean-sentence" class="korean-sentence">문장이 여기에 표시됩니다.</div>
+
+          <!-- 슬롯 영역 (언더라인) -->
+          <div id="slot-area" class="slot-area" role="list" aria-label="단어 배치 슬롯"></div>
+
+          <!-- 단어 풀 -->
+          <div id="word-pool" class="word-pool" role="list" aria-label="선택 가능한 단어들"></div>
+
         </div>
-
-        <!-- 타이머 -->
-        <div id="timer-display" class="timer-display">
-          <svg class="timer-ring" viewBox="0 0 100 100" aria-hidden="true">
-            <circle class="timer-ring-bg" cx="50" cy="50" r="44"/>
-            <circle id="timer-ring-fill" class="timer-ring-fill" cx="50" cy="50" r="44"/>
-          </svg>
-          <span id="timer-text" class="timer-text">15</span>
-        </div>
-
-        <!-- 한글 문장 -->
-        <div id="korean-sentence" class="korean-sentence">문장이 여기에 표시됩니다.</div>
-
-        <!-- 슬롯 영역 (언더라인) -->
-        <div id="slot-area" class="slot-area" role="list" aria-label="단어 배치 슬롯"></div>
-
-        <!-- 단어 풀 -->
-        <div id="word-pool" class="word-pool" role="list" aria-label="선택 가능한 단어들"></div>
-
-        <!-- 푸터 -->
-        <div class="game-footer">
-          <button id="btn-home" class="btn-home-emoji" aria-label="홈으로 가기">🏠</button>
-          <button id="btn-next" class="btn-next">Next →</button>
-          <div class="game-footer-spacer"></div>
-        </div>
-
       </div>
+
+      <!-- 하단 고정 푸터 — 스크롤 영역 바깥에 위치 (iOS 호환) -->
+      <div class="game-footer">
+        <button id="btn-home" class="btn-home-emoji" aria-label="홈으로 가기">🏠</button>
+        <button id="btn-next" class="btn-next">Next →</button>
+        <div class="game-footer-spacer"></div>
+      </div>
+
     </section>
 
     <!-- ══════════════════════════════
