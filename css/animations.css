@@ -1,0 +1,82 @@
+/* ══════════════════════════════════════
+   애니메이션 & 트랜지션
+══════════════════════════════════════ */
+
+/* 정답 완성 효과 */
+@keyframes correctFlash {
+  0%   { background: var(--clr-secondary); transform: scale(1); }
+  40%  { background: #6EE7B7; transform: scale(1.06); }
+  100% { background: var(--clr-secondary); transform: scale(1); }
+}
+.word-chip.correct-anim {
+  animation: correctFlash 0.4s ease-out;
+}
+
+/* 슬롯 배치 성공 */
+@keyframes slotDrop {
+  0%   { transform: translateY(-6px); }
+  60%  { transform: translateY(2px); }
+  100% { transform: translateY(0); }
+}
+.word-chip.slot-drop {
+  animation: slotDrop 0.2s ease-out;
+}
+
+/* 오답/시간 초과 흔들기 */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%       { transform: translateX(-6px); }
+  40%       { transform: translateX(6px); }
+  60%       { transform: translateX(-4px); }
+  80%       { transform: translateX(4px); }
+}
+.shake {
+  animation: shake 0.4s ease-out;
+}
+
+/* 타이머 경고 펄스 (배경) */
+@keyframes bgWarning {
+  0%, 100% { background: var(--clr-bg); }
+  50%       { background: #FEF2F2; }
+}
+.game-wrap.timer-warning {
+  animation: bgWarning 1s ease infinite;
+}
+
+/* 결과 화면 등장 */
+@keyframes resultFadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.result-wrap > * {
+  animation: resultFadeUp 0.4s ease both;
+}
+.result-wrap > *:nth-child(1) { animation-delay: 0.1s; }
+.result-wrap > *:nth-child(2) { animation-delay: 0.3s; }
+.result-wrap > *:nth-child(3) { animation-delay: 0.45s; }
+.result-wrap > *:nth-child(4) { animation-delay: 0.6s; }
+
+/* 버튼 탭 효과 */
+@keyframes tapScale {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(0.93); }
+  100% { transform: scale(1); }
+}
+.tap-anim {
+  animation: tapScale 0.15s ease;
+}
+
+/* 목소리 재생 중 아이콘 */
+@keyframes speakerPulse {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.2); }
+}
+.speaker-btn.playing {
+  animation: speakerPulse 0.6s ease infinite;
+}
+
+/* 로딩 점 */
+@keyframes dotBounce {
+  0%, 80%, 100% { transform: translateY(0); }
+  40%            { transform: translateY(-6px); }
+}

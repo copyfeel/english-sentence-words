@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <title>English Sentence</title>
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/screens.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/drag.css">
+  <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+  <div id="app">
+
+    <!-- ══════════════════════════════
+         화면 1: 시작화면
+    ══════════════════════════════ -->
+    <section id="screen-home" class="screen active">
+      <button id="btn-admin" class="admin-icon-btn" aria-label="관리자 모드">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/>
+          <path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+        </svg>
+      </button>
+      <div class="home-content">
+        <div class="home-logo">
+          <div class="logo-icon">E</div>
+        </div>
+        <h1 class="home-title">
+          <span class="title-line1">English</span>
+          <span class="title-line2">Sentence</span>
+        </h1>
+        <p class="home-subtitle">영어 문장 완성 게임</p>
+        <button id="btn-start" class="btn-start">
+          <span>Game Start</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M8 5v14l11-7z"/>
+          </svg>
+        </button>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════
+         화면 2: 관리자 화면
+    ══════════════════════════════ -->
+    <section id="screen-admin" class="screen">
+      <header class="admin-header sticky-header">
+        <button id="btn-admin-back" class="back-btn" aria-label="뒤로가기">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"/>
+          </svg>
+        </button>
+        <h1 class="admin-title">관리자</h1>
+        <div class="admin-header-spacer"></div>
+      </header>
+
+      <div class="admin-body">
+
+        <!-- 타이머 설정 -->
+        <div class="admin-card">
+          <h2 class="section-title">타이머 설정</h2>
+          <div class="timer-options" id="timer-options">
+            <button class="timer-opt" data-val="0">없음</button>
+            <button class="timer-opt" data-val="10">10초</button>
+            <button class="timer-opt active" data-val="15">15초</button>
+            <button class="timer-opt" data-val="20">20초</button>
+          </div>
+        </div>
+
+        <!-- 목소리 선택 -->
+        <div class="admin-card">
+          <h2 class="section-title">원어민 목소리 선택</h2>
+          <div id="voice-options" class="voice-options">
+            <p class="voice-loading">목소리 목록을 불러오는 중...</p>
+          </div>
+        </div>
+
+        <!-- 문제 추가 -->
+        <div class="admin-card">
+          <h2 class="section-title">문제 추가</h2>
+          <div class="form-group">
+            <label class="form-label" for="input-korean">한글 문장</label>
+            <input type="text" id="input-korean" class="form-input" placeholder="예: 고양이는 귀엽다">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="input-english">영어 문장</label>
+            <input type="text" id="input-english" class="form-input" placeholder="예: The cat is cute">
+          </div>
+          <div class="form-group">
+            <label class="form-label">레벨</label>
+            <div class="level-btns" id="add-level-select">
+              <button class="level-btn active" data-level="1">Lv.1</button>
+              <button class="level-btn" data-level="2">Lv.2</button>
+              <button class="level-btn" data-level="3">Lv.3</button>
+            </div>
+          </div>
+          <button id="btn-add" class="btn-primary btn-full">+ 추가</button>
+        </div>
+
+        <!-- 내보내기/불러오기 -->
+        <div class="admin-card">
+          <div class="io-row">
+            <button id="btn-export-json" class="btn-io">JSON</button>
+            <button id="btn-export-csv" class="btn-io">CSV</button>
+            <button id="btn-import" class="btn-io">불러오기</button>
+            <input type="file" id="file-import" accept=".json,.csv" style="display:none" aria-hidden="true">
+          </div>
+        </div>
+
+        <!-- 문제 리스트 -->
+        <div class="admin-card list-card">
+          <div class="list-toolbar">
+            <label class="check-wrap">
+              <input type="checkbox" id="check-all" aria-label="전체 선택">
+              <span class="check-label">전체</span>
+            </label>
+            <div class="list-controls">
+              <select id="filter-level" class="small-select" aria-label="레벨 필터">
+                <option value="0">전체 레벨</option>
+                <option value="1">Lv.1</option>
+                <option value="2">Lv.2</option>
+                <option value="3">Lv.3</option>
+              </select>
+              <button id="btn-sort-alpha" class="btn-sort" title="알파벳 정렬">A↓</button>
+            </div>
+            <button id="btn-delete-selected" class="btn-delete-sel" style="display:none">선택 삭제</button>
+          </div>
+
+          <div class="list-header-row">
+            <span class="col-check"></span>
+            <span class="col-num">#</span>
+            <span class="col-sentence">한글 / 영어 문장</span>
+            <span class="col-level">레벨</span>
+            <span class="col-action">수정/삭제</span>
+          </div>
+
+          <div id="sentence-list" class="sentence-list">
+            <div class="empty-state">
+              <p>등록된 문제가 없습니다.</p>
+              <p class="empty-hint">위 폼에서 문제를 추가해주세요.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- 스크롤 상단 이동 버튼 -->
+      <button id="btn-scroll-top" class="scroll-top-btn" aria-label="맨 위로" style="opacity:0;pointer-events:none">^</button>
+    </section>
+
+    <!-- ══════════════════════════════
+         화면 3: 문제풀이 화면
+    ══════════════════════════════ -->
+    <section id="screen-game" class="screen">
+      <div class="game-wrap">
+
+        <!-- 카운터 -->
+        <div class="game-counter-row">
+          <span id="game-counter" class="game-counter">1 / 1</span>
+        </div>
+
+        <!-- 타이머 -->
+        <div id="timer-display" class="timer-display">
+          <svg class="timer-ring" viewBox="0 0 100 100" aria-hidden="true">
+            <circle class="timer-ring-bg" cx="50" cy="50" r="44"/>
+            <circle id="timer-ring-fill" class="timer-ring-fill" cx="50" cy="50" r="44"/>
+          </svg>
+          <span id="timer-text" class="timer-text">15</span>
+        </div>
+
+        <!-- 한글 문장 -->
+        <div id="korean-sentence" class="korean-sentence">문장이 여기에 표시됩니다.</div>
+
+        <!-- 슬롯 영역 (언더라인) -->
+        <div id="slot-area" class="slot-area" role="list" aria-label="단어 배치 슬롯"></div>
+
+        <!-- 단어 풀 -->
+        <div id="word-pool" class="word-pool" role="list" aria-label="선택 가능한 단어들"></div>
+
+        <!-- 푸터 -->
+        <div class="game-footer">
+          <button id="btn-home" class="btn-home-emoji" aria-label="홈으로 가기">🏠</button>
+          <button id="btn-next" class="btn-next">Next →</button>
+          <div class="game-footer-spacer"></div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════
+         화면 4: 결과화면
+    ══════════════════════════════ -->
+    <section id="screen-result" class="screen">
+      <canvas id="confetti-canvas" class="confetti-canvas" aria-hidden="true"></canvas>
+      <div class="result-wrap">
+        <div id="congrats-text" class="congrats-text">Nice work!</div>
+
+        <div class="result-stats">
+          <div class="stat-card correct">
+            <span id="stat-correct" class="stat-num">0</span>
+            <span class="stat-label">정답</span>
+          </div>
+          <div class="stat-card wrong">
+            <span id="stat-wrong" class="stat-num">0</span>
+            <span class="stat-label">오답</span>
+          </div>
+          <div class="stat-card total">
+            <span id="stat-total" class="stat-num">0</span>
+            <span class="stat-label">전체</span>
+          </div>
+        </div>
+
+        <div id="wrong-list-wrap" class="wrong-list-wrap" style="display:none">
+          <h3 class="wrong-list-title">오답 목록</h3>
+          <div id="wrong-list" class="wrong-list"></div>
+        </div>
+
+        <div class="result-btns">
+          <button id="btn-retry-wrong" class="btn-secondary" style="display:none">오답 다시 풀기</button>
+          <button id="btn-end-game" class="btn-primary">홈으로</button>
+        </div>
+      </div>
+    </section>
+
+  </div><!-- /#app -->
+
+  <!-- 드래그 고스트 (fixed, 항상 최상단) -->
+  <div id="drag-ghost" aria-hidden="true"></div>
+
+  <!-- 수정 모달 -->
+  <div id="modal-edit" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title" style="display:none">
+    <div class="modal-content">
+      <h3 id="modal-title" class="modal-title">문제 수정</h3>
+      <input type="hidden" id="edit-id">
+      <div class="form-group">
+        <label class="form-label" for="edit-korean">한글 문장</label>
+        <input type="text" id="edit-korean" class="form-input">
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="edit-english">영어 문장</label>
+        <input type="text" id="edit-english" class="form-input">
+      </div>
+      <div class="form-group">
+        <label class="form-label">레벨</label>
+        <div class="level-btns" id="edit-level-select">
+          <button class="level-btn active" data-level="1">Lv.1</button>
+          <button class="level-btn" data-level="2">Lv.2</button>
+          <button class="level-btn" data-level="3">Lv.3</button>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="btn-edit-cancel" class="btn-secondary">취소</button>
+        <button id="btn-edit-save" class="btn-primary">저장</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

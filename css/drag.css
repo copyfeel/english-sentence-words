@@ -1,0 +1,56 @@
+/* ══════════════════════════════════════
+   드래그 앤 드롭 UI
+══════════════════════════════════════ */
+
+/* 드래그 고스트 (fixed, 항상 최상단) */
+#drag-ghost {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9998;
+  display: none;
+
+  padding: 8px 16px;
+  background: var(--clr-primary);
+  color: white;
+  border-radius: var(--radius-full);
+  font-size: 15px;
+  font-weight: 600;
+  box-shadow: 0 8px 24px rgba(79,70,229,0.5);
+  white-space: nowrap;
+  transform-origin: top left;
+  will-change: transform;
+  opacity: 0.9;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* 드래그 중인 원본 칩 */
+.word-chip.is-dragging {
+  opacity: 0.25;
+  transform: scale(0.95);
+}
+
+/* 드롭 가능 위치 강조 */
+.word-slot.drag-over {
+  background: var(--clr-primary-light) !important;
+  border-bottom-color: var(--clr-primary-dark) !important;
+}
+.word-pool.drag-over {
+  background: #F0FDF4;
+  outline: 2px dashed var(--clr-secondary);
+  outline-offset: -2px;
+}
+
+/* 드래그 중 전체 게임 영역 */
+body.is-dragging {
+  cursor: grabbing !important;
+}
+body.is-dragging * {
+  cursor: grabbing !important;
+}
+body.is-dragging .word-slot,
+body.is-dragging .word-pool {
+  transition: background 0.1s !important;
+}
