@@ -89,6 +89,28 @@
 .level-btn[data-level="2"].active { border-color: #D97706; background: #FEF3C7; color: #92400E; }
 .level-btn[data-level="3"].active { border-color: #DC2626; background: #FEE2E2; color: #991B1B; }
 
+/* 삭제 확인 모달 */
+.confirm-msg {
+  font-size: 15px;
+  color: var(--clr-text);
+  line-height: 1.7;
+  margin-bottom: 20px;
+  text-align: center;
+}
+.btn-danger-confirm {
+  flex: 1;
+  padding: 13px 24px;
+  border-radius: var(--radius-full);
+  background: var(--clr-danger);
+  color: white;
+  font-size: 15px;
+  font-weight: 700;
+  transition: all 0.15s;
+  text-align: center;
+}
+.btn-danger-confirm:hover  { background: #B91C1C; }
+.btn-danger-confirm:active { transform: scale(0.97); }
+
 /* 모달 */
 .modal-overlay {
   position: fixed;

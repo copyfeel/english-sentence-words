@@ -7,15 +7,16 @@ import {
   getSentences, addSentence, updateSentence, deleteSentence,
   setSentences, getSettings, saveSettings,
   getSelectedIds, saveSelectedIds, removeFromSelected,
+  getFilterLevels, saveFilterLevels,
 } from '../store.js';
 import { exportJSON, exportCSV, importFile } from '../utils/exportImport.js';
 import { uid, sanitize, showToast, levelClass, levelLabel, parseLevel } from '../utils/helpers.js';
 
 /* ─── 상태 ────────────────────────────── */
-let _settings     = getSettings();
-let _filterLevel  = 0;     // 0 = 전체
-let _sortAlpha    = false;
-let _selectedIds  = new Set();
+let _settings      = getSettings();
+let _filterLevels  = new Set();  // 선택된 레벨 (비어있으면 전체)
+let _sortAlpha     = false;
+let _selectedIds   = new Set();
 
 /* ─── 관리자 진입/이탈 ──────────────────── */
 export function initAdmin() {
@@ -33,10 +34,11 @@ export function initAdmin() {
 
   router.register('admin', {
     onEnter() {
-      _settings = getSettings();
-      // 저장된 선택 ID 복원
-      _selectedIds = new Set(getSelectedIds());
+      _settings     = getSettings();
+      _selectedIds  = new Set(getSelectedIds());
+      _filterLevels = new Set(getFilterLevels());
       _applySettings();
+      _applyFilterLevels();
       _renderList();
       _updateDeleteBtn();
     },
@@ -56,6 +58,26 @@ function _applySettings() {
   document.querySelectorAll('.voice-item').forEach(item => {
     item.classList.toggle('active', item.dataset.voiceUri === _settings.voiceURI);
   });
+}
+
+function _applyFilterLevels() {
+  document.querySelectorAll('.filter-lv-btn').forEach(btn => {
+    const lv = Number(btn.dataset.level);
+    btn.classList.toggle('active', _filterLevels.has(lv));
+  });
+  _updateGameCount();
+}
+
+function _updateGameCount() {
+  const badge = document.getElementById('filter-game-count');
+  if (!badge) return;
+  if (_filterLevels.size === 0) {
+    badge.style.display = 'none';
+    return;
+  }
+  const count = getSentences().filter(s => _filterLevels.has(Number(s.level))).length;
+  badge.textContent = `게임 ${count}문제`;
+  badge.style.display = '';
 }
 
 function _bindSettings() {
@@ -257,9 +279,27 @@ function _bindList() {
     _updateDeleteBtn();
   });
 
-  // 레벨 필터
-  document.getElementById('filter-level').addEventListener('change', e => {
-    _filterLevel = Number(e.target.value);
+  // 레벨 필터 (다중 선택 토글)
+  // - 버튼 클릭 시: 시각 상태만 토글, 이벤트 전파 차단
+  // - 영역 밖 클릭 시: document 핸들러에서 목록 확정 갱신
+  document.getElementById('filter-level-btns').addEventListener('click', e => {
+    e.stopPropagation(); // document 핸들러로 전파 차단 (버튼 사이 여백 클릭 포함)
+    const btn = e.target.closest('.filter-lv-btn');
+    if (!btn) return;
+    const level = Number(btn.dataset.level);
+    if (_filterLevels.has(level)) {
+      _filterLevels.delete(level);
+    } else {
+      _filterLevels.add(level);
+    }
+    // 버튼 active 상태와 게임 카운트 배지만 갱신 (목록은 즉시 변경 안 함)
+    _applyFilterLevels();
+  });
+
+  // 레벨 필터 영역 밖 클릭/터치 시 선택 확정 → 목록 갱신
+  document.addEventListener('click', () => {
+    if (router.current !== 'admin') return;
+    saveFilterLevels(_filterLevels);
     _renderList();
   });
 
@@ -270,22 +310,29 @@ function _bindList() {
     _renderList();
   });
 
-  // 선택 삭제
+  // 선택 삭제 — 커스텀 확인 모달 사용
   document.getElementById('btn-delete-selected').addEventListener('click', () => {
     if (!_selectedIds.size) return;
-    if (!confirm(`선택한 ${_selectedIds.size}개 문제를 삭제할까요?`)) return;
-    _selectedIds.forEach(id => deleteSentence(id));
-    _selectedIds.clear();
-    saveSelectedIds(_selectedIds);
-    _updateDeleteBtn();
-    _renderList();
-    showToast('🗑️ 삭제했습니다.');
+    _showConfirm(() => {
+      _selectedIds.forEach(id => deleteSentence(id));
+      _selectedIds.clear();
+      saveSelectedIds(_selectedIds);
+      _updateDeleteBtn();
+      _renderList();
+      showToast('🗑️ 삭제했습니다.');
+    });
+  });
+
+  // 확인 모달 배경 클릭 시 닫기
+  document.getElementById('modal-confirm').addEventListener('click', e => {
+    if (e.target === e.currentTarget) e.currentTarget.style.display = 'none';
   });
 }
 
 function _getVisibleSentences() {
   let list = getSentences();
-  if (_filterLevel > 0) list = list.filter(s => s.level === _filterLevel);
+  // Number()로 강제 변환하여 타입 불일치 방지
+  if (_filterLevels.size > 0) list = list.filter(s => _filterLevels.has(Number(s.level)));
   if (_sortAlpha) list = [...list].sort((a, b) => a.english.localeCompare(b.english));
   return list;
 }
@@ -294,10 +341,17 @@ function _renderList() {
   const container = document.getElementById('sentence-list');
   const list      = _getVisibleSentences();
 
+  // 게임 출제 문제 수 배지 갱신
+  _updateGameCount();
+
   if (list.length === 0) {
+    const levelNames = [..._filterLevels].sort().map(l => `Lv.${l}`).join(', ');
+    const emptyMsg = _filterLevels.size > 0
+      ? `${levelNames} 문제가 없습니다.`
+      : '등록된 문제가 없습니다.';
     container.innerHTML = `
       <div class="empty-state">
-        <p>${_filterLevel > 0 ? `Lv.${_filterLevel} 문제가 없습니다.` : '등록된 문제가 없습니다.'}</p>
+        <p>${emptyMsg}</p>
         <p class="empty-hint">위 폼에서 문제를 추가해주세요.</p>
       </div>`;
     document.getElementById('check-all').checked = false;
@@ -353,6 +407,9 @@ function _renderList() {
 
     container.appendChild(row);
   });
+
+  // 필터 변경 후 전체선택 체크박스 상태 동기화
+  _syncCheckAll();
 }
 
 function _updateDeleteBtn() {
@@ -442,6 +499,26 @@ function _bindScrollTop() {
       screen.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }, { passive: true });
+}
+
+/* ─── 삭제 확인 모달 ─────────────────── */
+function _showConfirm(onConfirm) {
+  const modal     = document.getElementById('modal-confirm');
+  const cancelBtn = document.getElementById('btn-confirm-cancel');
+  const deleteBtn = document.getElementById('btn-confirm-delete');
+
+  modal.style.display = 'flex';
+
+  const cleanup = () => {
+    modal.style.display = 'none';
+    cancelBtn.removeEventListener('click', onCancel);
+    deleteBtn.removeEventListener('click', onDelete);
+  };
+  const onCancel = () => cleanup();
+  const onDelete = () => { cleanup(); onConfirm(); };
+
+  cancelBtn.addEventListener('click', onCancel);
+  deleteBtn.addEventListener('click', onDelete);
 }
 
 /* ─── 내부 유틸 ──────────────────────── */

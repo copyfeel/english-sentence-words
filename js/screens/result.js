@@ -1,10 +1,9 @@
 /* ══════════════════════════════════════
    result.js - 결과화면
 ══════════════════════════════════════ */
-import { router }     from '../router.js';
-import { tts }        from '../components/tts.js';
-import { Confetti }   from '../components/confetti.js';
-import { getWrongAnswers } from '../store.js';
+import { router }   from '../router.js';
+import { tts }      from '../components/tts.js';
+import { Confetti } from '../components/confetti.js';
 
 const $ = id => document.getElementById(id);
 
@@ -12,7 +11,8 @@ const CONGRATS = [
   'Nice work!', 'Good job!', 'Awesome!', 'Super Duper!', 'Wonderful!',
 ];
 
-let _confetti = null;
+let _confetti       = null;
+let _wrongSentences = []; // 방금 게임에서 틀린 문제들
 
 export function initResult() {
   $('btn-end-game').addEventListener('click', () => {
@@ -24,17 +24,9 @@ export function initResult() {
   $('btn-retry-wrong').addEventListener('click', () => {
     tts.stop();
     if (_confetti) _confetti.stop();
-    const wrongs = getWrongAnswers();
-    if (!wrongs.length) return;
-    // 오답 항목을 Sentence 형식으로 변환
-    const sentences = wrongs.map(w => ({
-      id:      w.sentenceId,
-      korean:  w.korean,
-      english: w.english,
-      level:   w.level,
-      createdAt: w.failedAt,
-    }));
-    router.navigate('game', { sentences, isWrongOnly: true });
+    if (!_wrongSentences.length) return;
+    // 방금 게임의 오답 문제만 넘겨서 다시 풀기
+    router.navigate('game', { sentences: _wrongSentences, isWrongOnly: true });
   });
 
   router.register('result', {
@@ -70,18 +62,20 @@ function _render({ session, questions }) {
   _confetti = new Confetti(canvas);
   _confetti.launch(4000);
 
-  // 오답 목록
-  const wrongItems = getWrongAnswers();
-  const wrongWrap  = $('wrong-list-wrap');
-  const wrongList  = $('wrong-list');
-  const retryBtn   = $('btn-retry-wrong');
+  // 방금 게임에서 틀린 문제만 추출 (session.wrong의 ID 기준)
+  const wrongIdSet = new Set(session.wrong);
+  _wrongSentences  = questions.filter(q => wrongIdSet.has(q.id));
+
+  const wrongWrap = $('wrong-list-wrap');
+  const wrongList = $('wrong-list');
+  const retryBtn  = $('btn-retry-wrong');
 
   wrongList.innerHTML = '';
-  if (wrongItems.length > 0) {
+  if (_wrongSentences.length > 0) {
     wrongWrap.style.display = 'block';
     retryBtn.style.display  = 'inline-flex';
 
-    wrongItems.forEach(w => {
+    _wrongSentences.forEach(w => {
       const item = document.createElement('div');
       item.className = 'wrong-item';
       item.innerHTML = `

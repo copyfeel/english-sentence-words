@@ -3,10 +3,11 @@
 ══════════════════════════════════════ */
 
 const KEYS = {
-  SENTENCES:    'esg_sentences',
-  SETTINGS:     'esg_settings',
-  WRONG:        'esg_wrong_answers',
-  SELECTED_IDS: 'esg_selected_ids',  // 게임에 출제할 문제 ID 목록
+  SENTENCES:     'esg_sentences',
+  SETTINGS:      'esg_settings',
+  WRONG:         'esg_wrong_answers',
+  SELECTED_IDS:  'esg_selected_ids',   // 게임에 출제할 문제 ID 목록
+  FILTER_LEVELS: 'esg_filter_levels',  // 레벨 필터 (다중 선택)
 };
 
 function _get(key) {
@@ -96,4 +97,13 @@ export function saveSelectedIds(ids) {
 export function removeFromSelected(id) {
   const ids = getSelectedIds().filter(i => i !== id);
   _set(KEYS.SELECTED_IDS, ids);
+}
+
+/* ─── 레벨 필터 ─────────────────────── */
+export function getFilterLevels() {
+  return _get(KEYS.FILTER_LEVELS) ?? [];
+}
+
+export function saveFilterLevels(levels) {
+  _set(KEYS.FILTER_LEVELS, [...levels]);
 }

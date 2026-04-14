@@ -67,7 +67,11 @@ function _loadQuestion(idx) {
   }
 
   _answered = false;
-  const q   = _questions[idx];
+
+  // 단어 풀 박스 복원 (이전 문제에서 숨겨진 경우 대비)
+  $('word-pool').style.display = '';
+
+  const q = _questions[idx];
 
   // 카운터
   $('game-counter').textContent = `${idx + 1} / ${_questions.length}`;
@@ -243,7 +247,8 @@ function _checkAnswer() {
     _showCorrectEffect();
 
     setTimeout(() => {
-      // TTS 발화
+      // TTS 발화 시작과 동시에 단어 풀 박스 숨기기
+      $('word-pool').style.display = 'none';
       const utt = tts.speak(correct);
 
       // 스피커 이모티콘 표시
