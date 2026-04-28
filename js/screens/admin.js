@@ -14,9 +14,11 @@ import { uid, sanitize, showToast, levelClass, levelLabel, parseLevel } from '..
 
 /* ─── 상태 ────────────────────────────── */
 let _settings      = getSettings();
-let _filterLevels  = new Set();  // 선택된 레벨 (비어있으면 전체)
+let _filterLevels  = new Set();
 let _sortAlpha     = false;
 let _selectedIds   = new Set();
+let _addMode       = 'ko-to-en';
+let _editMode      = 'ko-to-en';
 
 /* ─── 관리자 진입/이탈 ──────────────────── */
 export function initAdmin() {
@@ -224,6 +226,15 @@ function _bindForm() {
     btn.classList.add('active');
   });
 
+  // 출제 유형 버튼
+  document.getElementById('add-mode-select').addEventListener('click', e => {
+    const btn = e.target.closest('.mode-btn');
+    if (!btn) return;
+    _addMode = btn.dataset.mode;
+    document.querySelectorAll('#add-mode-select .mode-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  });
+
   // 추가 버튼
   document.getElementById('btn-add').addEventListener('click', _handleAdd);
 
@@ -243,7 +254,7 @@ function _handleAdd() {
     return;
   }
 
-  addSentence({ id: uid(), korean, english, level: _addLevel, createdAt: Date.now() });
+  addSentence({ id: uid(), korean, english, level: _addLevel, mode: _addMode, createdAt: Date.now() });
 
   document.getElementById('input-korean').value  = '';
   document.getElementById('input-english').value = '';
@@ -410,6 +421,7 @@ function _renderList() {
       </span>
       <span class="col-level col-level-badge">
         <span class="level-badge ${levelClass(s.level)}">${levelLabel(s.level)}</span>
+        <span class="mode-badge ${s.mode === 'en-to-ko' ? 'mode-b' : 'mode-a'}">${s.mode === 'en-to-ko' ? 'B형' : 'A형'}</span>
       </span>
       <span class="col-action col-actions">
         <button class="btn-edit-item" data-id="${s.id}">수정</button>
@@ -472,7 +484,14 @@ function _bindModal() {
     btn.classList.add('active');
   });
 
-  // 모달 배경 클릭 시 닫기
+  document.getElementById('edit-mode-select').addEventListener('click', e => {
+    const btn = e.target.closest('.mode-btn');
+    if (!btn) return;
+    _editMode = btn.dataset.mode;
+    document.querySelectorAll('#edit-mode-select .mode-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  });
+
   document.getElementById('modal-edit').addEventListener('click', e => {
     if (e.target === e.currentTarget) _closeEdit();
   });
@@ -483,8 +502,12 @@ function _openEdit(s) {
   document.getElementById('edit-korean').value  = s.korean;
   document.getElementById('edit-english').value = s.english;
   _editLevel = s.level;
+  _editMode  = s.mode ?? 'ko-to-en';
   document.querySelectorAll('#edit-level-select .level-btn').forEach(btn => {
     btn.classList.toggle('active', parseLevel(btn.dataset.level) === s.level);
+  });
+  document.querySelectorAll('#edit-mode-select .mode-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.mode === _editMode);
   });
   document.getElementById('modal-edit').style.display = 'flex';
   document.getElementById('edit-korean').focus();
@@ -502,7 +525,7 @@ function _handleEditSave() {
     showToast('모든 항목을 입력해주세요.');
     return;
   }
-  updateSentence(id, { korean, english, level: _editLevel });
+  updateSentence(id, { korean, english, level: _editLevel, mode: _editMode });
   _closeEdit();
   _renderList();
   showToast('✅ 수정되었습니다.');

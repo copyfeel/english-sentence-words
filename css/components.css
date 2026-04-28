@@ -89,6 +89,49 @@
 .level-btn[data-level="2"].active { border-color: #D97706; background: #FEF3C7; color: #92400E; }
 .level-btn[data-level="3"].active { border-color: #DC2626; background: #FEE2E2; color: #991B1B; }
 
+/* 출제 유형 버튼 */
+.mode-btns {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.mode-btn {
+  width: 100%;
+  padding: 9px 12px;
+  border-radius: var(--radius-md);
+  border: 2px solid var(--clr-border);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--clr-text-muted);
+  text-align: left;
+  transition: all 0.15s;
+  background: transparent;
+}
+.mode-btn.active,
+.mode-btn:hover {
+  border-color: var(--clr-primary);
+  background: var(--clr-primary-light);
+  color: var(--clr-primary);
+}
+
+/* 유형 배지 (리스트) */
+.mode-badge {
+  display: inline-block;
+  margin-top: 4px;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+}
+.mode-badge.mode-a {
+  background: #EEF2FF;
+  color: #4338CA;
+}
+.mode-badge.mode-b {
+  background: #FFF7ED;
+  color: #C2410C;
+}
+
 /* 삭제 확인 모달 */
 .confirm-msg {
   font-size: 15px;

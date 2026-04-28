@@ -14,12 +14,9 @@
   box-sizing: border-box;
 }
 
-/* ─── 슬롯에서 선택된 단어 칩 ─── */
-.word-chip.selected {
-  background: var(--clr-primary) !important;
-  color: white !important;
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.35), var(--shadow-sm, 0 1px 3px rgba(0,0,0,.1));
-  transform: scale(1.06);
+/* ─── 슬롯 칩: 드래그 중 스크롤 방지 ─── */
+.word-chip.in-slot {
+  touch-action: none;
 }
 
 /* 드래그 고스트 (fixed, 항상 최상단) */
