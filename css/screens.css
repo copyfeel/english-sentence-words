@@ -830,7 +830,6 @@
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-sm);
   min-height: 64px;
-  touch-action: none;
 }
 .word-pool.drag-over {
   background: #F0FDF4;
@@ -844,17 +843,17 @@
   border-radius: var(--radius-full);
   font-size: 15px;
   font-weight: 600;
-  cursor: grab;
+  cursor: pointer;
   user-select: none;
   -webkit-user-select: none;
   -webkit-touch-callout: none;
   box-shadow: var(--shadow-sm);
-  transition: transform 0.1s, box-shadow 0.1s, opacity 0.15s;
-  touch-action: none;
+  transition: transform 0.1s, box-shadow 0.1s, opacity 0.15s, background 0.15s;
+  touch-action: manipulation;
   white-space: nowrap;
 }
 .word-chip:active {
-  cursor: grabbing;
+  transform: scale(0.94);
 }
 .word-chip.in-slot {
   background: var(--clr-secondary);

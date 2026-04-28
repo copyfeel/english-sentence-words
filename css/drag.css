@@ -1,6 +1,26 @@
 /* ══════════════════════════════════════
-   드래그 앤 드롭 UI
+   단어 이동 UI
 ══════════════════════════════════════ */
+
+/* ─── 풀에서 슬롯으로 이동된 단어의 빈자리 ─── */
+.word-placeholder {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  border-radius: var(--radius-full, 999px);
+  background: rgba(0, 0, 0, 0.04);
+  border: 2px dashed rgba(0, 0, 0, 0.12);
+  box-sizing: border-box;
+}
+
+/* ─── 슬롯에서 선택된 단어 칩 ─── */
+.word-chip.selected {
+  background: var(--clr-primary) !important;
+  color: white !important;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.35), var(--shadow-sm, 0 1px 3px rgba(0,0,0,.1));
+  transform: scale(1.06);
+}
 
 /* 드래그 고스트 (fixed, 항상 최상단) */
 #drag-ghost {
