@@ -740,7 +740,7 @@
 }
 .timer-ring-fill {
   fill: none;
-  stroke: var(--clr-primary);
+  stroke: #D4A5B5;
   stroke-width: 6;
   stroke-linecap: round;
   stroke-dasharray: 276.46; /* 2*π*44 */
@@ -748,7 +748,7 @@
   transition: stroke-dashoffset 0.8s linear, stroke 0.3s;
 }
 .timer-ring-fill.warning {
-  stroke: var(--clr-danger);
+  stroke: #E87FA0;
   animation: timerPulse 0.5s ease infinite alternate;
 }
 .timer-text {
@@ -872,7 +872,7 @@
 .word-slot {
   min-width: 60px;
   height: 44px;
-  border-bottom: 2.5px solid #6B7280;
+  border-bottom: 1.5px dashed #CBD5E1;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -886,22 +886,22 @@
   position: absolute;
   left: 8%;
   right: 8%;
-  bottom: -5px;
-  height: 4px;
-  background: rgba(0,0,0,0.07);
+  bottom: -4px;
+  height: 3px;
+  background: rgba(0,0,0,0.04);
   border-radius: 50%;
   filter: blur(2px);
   pointer-events: none;
 }
 .word-slot.drag-over {
   background: var(--clr-primary-light);
-  border-bottom-color: #4B5563;
+  border-bottom-color: #94A3B8;
 }
 .word-slot.filled {
-  border-bottom-color: #4B5563;
+  border-bottom-color: #94A3B8;
 }
 .word-slot.correct-slot {
-  border-bottom-color: var(--clr-secondary);
+  border-bottom: 2px solid var(--clr-secondary);
 }
 
 /* 단어 풀 */
@@ -980,18 +980,18 @@
 
 .btn-next {
   flex: 1;
-  max-width: 200px;
-  padding: 14px 28px;
+  max-width: 134px;
+  padding: 9px 18px;
   border-radius: var(--radius-full);
-  background: var(--clr-primary);
+  background: #818CF8;
   color: white;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 700;
-  box-shadow: var(--shadow-md);
+  box-shadow: 0 2px 8px rgba(129,140,248,0.35);
   transition: all 0.15s;
   text-align: center;
 }
-.btn-next:hover { background: var(--clr-primary-dark); }
+.btn-next:hover { background: #6D7CF6; }
 .btn-next:active { transform: scale(0.97); }
 
 
@@ -1124,23 +1124,23 @@
 
 /* 정답 완성 스피커 */
 .speaker-btn {
-  background: var(--clr-primary-light);
+  background: #F3F4F6;
   border: none;
   cursor: pointer;
-  padding: 10px;
+  padding: 7px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: var(--clr-primary);
+  color: #9CA3AF;
   border-radius: var(--radius-full);
   opacity: 0.9;
-  transition: opacity 0.15s, transform 0.15s, background 0.15s;
+  transition: opacity 0.15s, transform 0.15s, background 0.15s, color 0.15s;
   margin-left: 8px;
   box-shadow: var(--shadow-sm);
 }
 .speaker-btn:hover {
   opacity: 1;
-  background: var(--clr-primary);
-  color: white;
+  background: #E5E7EB;
+  color: #6B7280;
   transform: scale(1.08);
 }
