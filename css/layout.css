@@ -3,7 +3,8 @@
 ══════════════════════════════════════ */
 #app {
   position: relative;
-  min-height: 100dvh;
+  height: 100dvh;
+  overflow: hidden;
 }
 
 .screen {
@@ -12,8 +13,10 @@
 
 .screen.active {
   display: flex;
-  flex-direction: column;   /* 모든 화면 공통 */
-  min-height: 100dvh;
+  flex-direction: column;
+  height: 100dvh;
+  max-height: 100dvh;
+  overflow: hidden;
   animation: screenIn 0.22s ease-out;
 }
 
@@ -31,5 +34,7 @@
 /* 스크롤 가능한 화면 */
 .screen-scrollable {
   overflow-y: auto;
+  overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
 }

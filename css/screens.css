@@ -151,7 +151,9 @@
 #screen-admin {
   background: var(--clr-bg);
   overflow-y: auto;
+  overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
 }
 
 .sticky-header {
@@ -685,8 +687,9 @@
 .game-content {
   flex: 1;
   overflow-y: auto;
+  overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
-  /* 드래그 중 스크롤 방지는 word-chip touch-action:none 으로 처리 */
+  overscroll-behavior: contain;
 }
 
 .game-wrap {
@@ -781,6 +784,7 @@
   display: flex;
   align-items: flex-end;
   justify-content: center;
+  background: var(--clr-bg);
 }
 
 .teacher-svg {
@@ -788,6 +792,7 @@
   height: auto;
   max-height: 155px;
   display: block;
+  mix-blend-mode: multiply;
 }
 
 .speech-bubble {
@@ -1084,6 +1089,7 @@
   border: 1px solid rgba(255,255,255,0.2);
   max-height: 200px;
   overflow-y: auto;
+  overscroll-behavior: contain;
 }
 .wrong-list-title {
   font-size: 13px;

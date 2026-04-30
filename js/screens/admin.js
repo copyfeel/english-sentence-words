@@ -258,7 +258,6 @@ function _handleAdd() {
 
   document.getElementById('input-korean').value  = '';
   document.getElementById('input-english').value = '';
-  showToast('✅ 문제가 추가되었습니다.');
   _renderList();
 }
 
