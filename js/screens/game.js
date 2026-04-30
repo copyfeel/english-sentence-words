@@ -32,7 +32,11 @@ export function initGame() {
   });
 
   $('btn-next').addEventListener('click', () => {
-    if (_answered) return;
+    if (_answered) {
+      // 정답 완료 후 Next → 다음 문제로 이동
+      _advance();
+      return;
+    }
     _markWrong();
     _advance();
   });
@@ -388,17 +392,8 @@ function _checkAnswer() {
 
   setTimeout(() => {
     $('word-pool').style.display = 'none';
-    const utt = tts.speak(q.english);
-    _showSpeaker(q.english);
-
-    let advanced = false;
-    const advance = () => {
-      if (advanced) return;
-      advanced = true;
-      setTimeout(() => _advance(), 400);
-    };
-    utt.onend = advance;
-    setTimeout(advance, 3500);
+    tts.speak(q.english);        // 첫 번역 자동 발화
+    _showSpeaker(q.english);     // 반복 듣기 버튼 표시
   }, 500);
 
   _session.correct.push(q.id);

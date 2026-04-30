@@ -767,7 +767,80 @@
   to   { opacity: 0.6; }
 }
 
-/* 한글 문장 */
+/* ─── 선생님 + 말풍선 영역 ──────────────── */
+.question-area {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 4px;
+}
+
+.teacher-figure {
+  width: 28%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.teacher-svg {
+  width: 100%;
+  height: auto;
+  max-height: 155px;
+  display: block;
+}
+
+.speech-bubble {
+  flex: 1;
+  background: white;
+  border: 2px solid #D1D5DB;
+  border-radius: 18px;
+  padding: 14px 16px;
+  position: relative;
+  min-height: 56px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+}
+
+/* 말풍선 꼬리 (흰색 채움) */
+.speech-bubble::before {
+  content: '';
+  position: absolute;
+  left: -12px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-top: 11px solid transparent;
+  border-bottom: 11px solid transparent;
+  border-right: 12px solid white;
+  z-index: 1;
+}
+
+/* 말풍선 꼬리 (테두리) */
+.speech-bubble::after {
+  content: '';
+  position: absolute;
+  left: -15px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-top: 13px solid transparent;
+  border-bottom: 13px solid transparent;
+  border-right: 13px solid #D1D5DB;
+  z-index: 0;
+}
+
+/* 한글 문장 (말풍선 안) */
+.speech-bubble .korean-sentence {
+  background: none;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 0;
+  width: 100%;
+  font-size: 17px;
+  text-align: left;
+}
+
+/* 한글 문장 (기본 — 말풍선 밖에서는 유지) */
 .korean-sentence {
   font-size: 20px;
   font-weight: 700;
@@ -838,8 +911,8 @@
 /* 단어 칩 */
 .word-chip {
   padding: 8px 16px;
-  background: var(--clr-primary);
-  color: white;
+  background: #ffffff;
+  color: #374151;
   border-radius: var(--radius-full);
   font-size: 15px;
   font-weight: 600;
@@ -847,16 +920,19 @@
   user-select: none;
   -webkit-user-select: none;
   -webkit-touch-callout: none;
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.10), 0 0 0 1px rgba(0,0,0,0.06);
   transition: transform 0.1s, box-shadow 0.1s, opacity 0.15s, background 0.15s;
   touch-action: manipulation;
   white-space: nowrap;
 }
 .word-chip:active {
   transform: scale(0.94);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
 }
 .word-chip.in-slot {
   background: var(--clr-secondary);
+  color: white;
+  box-shadow: 0 2px 6px rgba(16,185,129,0.25);
 }
 
 /* 게임 푸터 — flex 레이아웃으로 하단 고정 (iOS 완전 호환) */

@@ -203,8 +203,58 @@
             <span id="timer-text" class="timer-text">15</span>
           </div>
 
-          <!-- 한글 문장 -->
-          <div id="korean-sentence" class="korean-sentence">문장이 여기에 표시됩니다.</div>
+          <!-- 선생님 + 말풍선 -->
+          <div class="question-area">
+            <div class="teacher-figure">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 165" class="teacher-svg" aria-hidden="true">
+                <!-- 뒷머리 (노란색, 얼굴 아래로 내려옴) -->
+                <path d="M21 55 Q17 88 19 140 L28 140 Q26 88 31 64 Z" fill="#FBBF24"/>
+                <path d="M79 55 Q83 88 81 140 L72 140 Q74 88 69 64 Z" fill="#FBBF24"/>
+                <!-- 윗머리 -->
+                <ellipse cx="50" cy="50" rx="30" ry="31" fill="#FBBF24"/>
+                <!-- 얼굴 -->
+                <circle cx="50" cy="53" r="25" fill="#FED7AA"/>
+                <!-- 머리띠 -->
+                <path d="M26 37 Q50 28 74 37 Q73 46 50 44 Q27 46 26 37 Z" fill="#EF4444"/>
+                <ellipse cx="50" cy="35" rx="19" ry="4" fill="#F87171" opacity="0.45"/>
+                <!-- 눈 흰자 -->
+                <ellipse cx="40.5" cy="52" rx="6.5" ry="7" fill="white"/>
+                <ellipse cx="59.5" cy="52" rx="6.5" ry="7" fill="white"/>
+                <!-- 눈동자 -->
+                <circle cx="41" cy="53" r="4.2" fill="#1E293B"/>
+                <circle cx="60" cy="53" r="4.2" fill="#1E293B"/>
+                <!-- 눈 하이라이트 -->
+                <circle cx="42.8" cy="51" r="1.8" fill="white"/>
+                <circle cx="61.8" cy="51" r="1.8" fill="white"/>
+                <!-- 눈썹 -->
+                <path d="M33 44 Q40.5 40 47 43" stroke="#92400E" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+                <path d="M53 43 Q59.5 40 67 44" stroke="#92400E" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+                <!-- 볼터치 -->
+                <ellipse cx="31" cy="62" rx="5.5" ry="4" fill="#FCA5A5" opacity="0.6"/>
+                <ellipse cx="69" cy="62" rx="5.5" ry="4" fill="#FCA5A5" opacity="0.6"/>
+                <!-- 미소 -->
+                <path d="M41 70 Q50 78 59 70" stroke="#374151" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                <!-- 목 -->
+                <rect x="43" y="76" width="14" height="11" rx="4" fill="#FED7AA"/>
+                <!-- 몸통 (빨간 재킷) -->
+                <path d="M10 165 L10 126 Q14 102 20 94 Q30 85 43 87 L50 96 L57 87 Q70 85 80 94 Q86 102 90 126 L90 165 Z" fill="#EF4444"/>
+                <!-- 흰 칼라 -->
+                <path d="M43 87 L50 97 L57 87 L53 84 L50 92 L47 84 Z" fill="white"/>
+                <!-- 센터 스트라이프 -->
+                <rect x="48.5" y="97" width="3" height="38" rx="1.5" fill="white" opacity="0.8"/>
+                <!-- 팔짱 — 오른팔(위) -->
+                <path d="M90 116 Q75 108 50 119 Q52 131 68 133 Q86 133 90 124 Z" fill="#DC2626"/>
+                <!-- 팔짱 — 왼팔(아래) -->
+                <path d="M10 116 Q25 108 50 119 Q48 131 32 133 Q14 133 10 124 Z" fill="#EF4444"/>
+                <!-- 손 -->
+                <ellipse cx="52" cy="125" rx="11" ry="8" fill="#FED7AA"/>
+                <ellipse cx="48" cy="124" rx="11" ry="8" fill="#FED7AA"/>
+              </svg>
+            </div>
+            <div class="speech-bubble">
+              <div id="korean-sentence" class="korean-sentence">문장이 여기에 표시됩니다.</div>
+            </div>
+          </div>
 
           <!-- 슬롯 영역 (언더라인) -->
           <div id="slot-area" class="slot-area" role="list" aria-label="단어 배치 슬롯"></div>
