@@ -784,7 +784,6 @@
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  background: var(--clr-bg);
 }
 
 .teacher-svg {
@@ -792,7 +791,6 @@
   height: auto;
   max-height: 155px;
   display: block;
-  mix-blend-mode: multiply;
 }
 
 .speech-bubble {
