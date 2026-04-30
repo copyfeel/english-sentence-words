@@ -207,74 +207,120 @@
           <div class="question-area">
             <div class="teacher-figure">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 115 185" class="teacher-svg" aria-hidden="true">
-                <!-- 별 장식 -->
-                <polygon points="97,5 99,12 106,12 101,16 103,23 97,19 91,23 93,16 88,12 95,12" fill="#FCD34D"/>
-                <polygon points="107,40 108.5,44.5 113,44.5 109.5,47 111,51.5 107,49 103,51.5 104.5,47 101,44.5 105.5,44.5" fill="#FCD34D" opacity="0.8"/>
-                <polygon points="9,18 10.5,23 15.5,23 11.5,26 13,31 9,28.5 5,31 6.5,26 2.5,23 7.5,23" fill="#FCD34D" opacity="0.7"/>
-                <!-- 지시봉 (뒤쪽) -->
-                <line x1="82" y1="87" x2="103" y2="18" stroke="#8B6000" stroke-width="3" stroke-linecap="round"/>
-                <circle cx="104" cy="17" r="4" fill="#374151"/>
-                <circle cx="104" cy="17" r="2" fill="#9CA3AF"/>
-                <!-- 포니테일 (뒤쪽, 먼저 그림) -->
-                <path d="M62 50 C76 38 90 46 89 60 C88 74 80 86 74 93 C70 97 66 94 67 89 C73 80 77 68 75 58 C73 50 65 48 62 52 Z" fill="#6B3520"/>
-                <path d="M67 89 C69 100 63 108 59 102 C61 96 65 92 67 89 Z" fill="#6B3520"/>
-                <path d="M68 51 C79 45 85 56 83 66 C81 76 77 84 73 88" stroke="#4A2510" stroke-width="1" fill="none" opacity="0.35" stroke-linecap="round"/>
-                <!-- 뒷머리/옆머리 -->
-                <ellipse cx="57" cy="72" rx="26" ry="25" fill="#7C3A1E"/>
-                <path d="M31 67 C27 80 29 95 31 100 C35 91 36 79 36 69 Z" fill="#7C3A1E"/>
-                <!-- 얼굴 -->
-                <circle cx="57" cy="72" r="25" fill="#FDDCB5"/>
-                <!-- 앞머리 (bangs) -->
-                <path d="M32 70 C35 53 47 50 51 58 C51 69 47 76 40 76 C36 76 32 74 32 70 Z" fill="#7C3A1E"/>
-                <path d="M49 57 C54 46 65 49 67 58 C67 69 63 75 57 75 C53 75 49 69 49 57 Z" fill="#7C3A1E"/>
-                <path d="M65 55 C69 46 78 50 79 61 C79 69 75 74 71 74 C67 74 65 68 65 55 Z" fill="#7C3A1E"/>
-                <path d="M36 57 C43 52 52 55" stroke="#A0522D" stroke-width="1.2" fill="none" opacity="0.4" stroke-linecap="round"/>
-                <path d="M54 51 C60 47 68 51" stroke="#A0522D" stroke-width="1.2" fill="none" opacity="0.4" stroke-linecap="round"/>
-                <!-- 포니테일 고무줄 -->
-                <ellipse cx="63" cy="50" rx="5" ry="4" fill="#B91C1C"/>
-                <ellipse cx="63" cy="50" rx="3" ry="2.5" fill="#EF4444" opacity="0.6"/>
-                <!-- 눈 흰자 -->
-                <ellipse cx="47" cy="71" rx="7" ry="7.5" fill="white"/>
-                <ellipse cx="67" cy="71" rx="7" ry="7.5" fill="white"/>
-                <!-- 눈동자 -->
-                <circle cx="47.5" cy="72" r="4.8" fill="#1E293B"/>
-                <circle cx="67.5" cy="72" r="4.8" fill="#1E293B"/>
-                <!-- 눈 하이라이트 -->
-                <circle cx="49.5" cy="70" r="2" fill="white"/>
-                <circle cx="69.5" cy="70" r="2" fill="white"/>
+                <!-- 별 (따뜻한 금색) -->
+                <polygon points="97,5 99,12 106,12 101,16 103,23 97,19 91,23 93,16 88,12 95,12" fill="#F0C040"/>
+                <polygon points="107,40 108.5,44 112.5,44 109.5,46.5 110.5,50.5 107,48.5 103.5,50.5 104.5,46.5 101.5,44 105.5,44" fill="#F0C040" opacity="0.75"/>
+                <polygon points="9,18 10.5,22.5 14.5,22.5 11.5,25 12.5,29 9,27 5.5,29 6.5,25 3.5,22.5 7.5,22.5" fill="#F0C040" opacity="0.7"/>
+
+                <!-- 지시봉 (가장 뒤에) -->
+                <line x1="82" y1="86" x2="103" y2="18" stroke="#7A5500" stroke-width="2.5" stroke-linecap="round"/>
+                <circle cx="104" cy="17" r="3.5" fill="#3A2800"/>
+                <circle cx="104" cy="17" r="1.8" fill="#6B5000"/>
+
+                <!-- 뒷머리·옆머리·업두 (얼굴 뒤) -->
+                <ellipse cx="57" cy="68" rx="27" ry="26" fill="#8B5A2B"/>
+                <path d="M30 63 C26 76 28 92 30 98 C34 88 36 76 36 66 Z" fill="#8B5A2B"/>
+                <path d="M84 63 C88 76 86 92 84 98 C80 88 78 76 78 66 Z" fill="#8B5A2B"/>
+                <!-- 업두 (쪽머리) -->
+                <ellipse cx="57" cy="46" rx="17" ry="15" fill="#9B6535"/>
+                <ellipse cx="57" cy="43" rx="12" ry="9" fill="#AC7040"/>
+                <ellipse cx="57" cy="39" rx="9" ry="6" fill="#B87848"/>
+                <!-- 머리 하이라이트 (지브리 특징) -->
+                <ellipse cx="50" cy="37" rx="5" ry="3" fill="#CC9860" opacity="0.5"/>
+                <ellipse cx="63" cy="35" rx="3" ry="2" fill="#CC9860" opacity="0.35"/>
+                <!-- 머리핀/고정 -->
+                <ellipse cx="57" cy="56" rx="6" ry="3" fill="#7A4820"/>
+                <ellipse cx="57" cy="55.5" rx="3.5" ry="1.8" fill="#9A6030" opacity="0.7"/>
+
+                <!-- 얼굴 (따뜻한 피부) -->
+                <circle cx="57" cy="70" r="26" fill="#F4C89A"/>
+
+                <!-- 앞머리 (얼굴 위에 그림) -->
+                <path d="M31 68 C34 51 47 49 51 58 C51 69 46 77 38 77 C34 77 31 73 31 68 Z" fill="#8B5A2B"/>
+                <path d="M48 56 C53 45 65 48 67 58 C67 70 62 76 55 76 C51 76 48 70 48 56 Z" fill="#8B5A2B"/>
+                <path d="M65 54 C69 45 78 49 79 60 C79 69 75 74 71 74 C67 74 65 68 65 54 Z" fill="#8B5A2B"/>
+                <!-- 앞머리 하이라이트 -->
+                <path d="M35 55 C42 50 51 54" stroke="#B88050" stroke-width="1.2" fill="none" opacity="0.45" stroke-linecap="round"/>
+                <path d="M53 50 C59 46 68 50" stroke="#B88050" stroke-width="1.2" fill="none" opacity="0.4" stroke-linecap="round"/>
+
+                <!-- 눈썹 (얇고 자연스러운) -->
+                <path d="M37 61 C43 57 50 60" stroke="#5C3010" stroke-width="2" stroke-linecap="round" fill="none"/>
+                <path d="M64 60 C71 57 77 61" stroke="#5C3010" stroke-width="2" stroke-linecap="round" fill="none"/>
+
+                <!-- 눈 (지브리 — 크고 따뜻한 갈색) -->
+                <ellipse cx="46" cy="70" rx="7.5" ry="7" fill="white"/>
+                <ellipse cx="68" cy="70" rx="7.5" ry="7" fill="white"/>
+                <circle cx="46.5" cy="70.5" r="5" fill="#7B4A22"/>
+                <circle cx="68.5" cy="70.5" r="5" fill="#7B4A22"/>
+                <circle cx="47" cy="71" r="2.8" fill="#2A1808"/>
+                <circle cx="69" cy="71" r="2.8" fill="#2A1808"/>
+                <!-- 눈 하이라이트 (지브리 특징 — 두 점) -->
+                <circle cx="49" cy="68.5" r="1.8" fill="white"/>
+                <circle cx="71" cy="68.5" r="1.8" fill="white"/>
+                <circle cx="45.5" cy="72" r="0.9" fill="white" opacity="0.65"/>
+                <circle cx="67.5" cy="72" r="0.9" fill="white" opacity="0.65"/>
                 <!-- 속눈썹 -->
-                <path d="M40 64 C44 60 52 62 54 64" stroke="#1E293B" stroke-width="2" fill="none" stroke-linecap="round"/>
-                <path d="M60 64 C64 60 72 62 74 64" stroke="#1E293B" stroke-width="2" fill="none" stroke-linecap="round"/>
-                <!-- 눈썹 -->
-                <path d="M40 61 C45 57 52 60" stroke="#5C2E0E" stroke-width="2.2" stroke-linecap="round" fill="none"/>
-                <path d="M62 60 C67 57 74 61" stroke="#5C2E0E" stroke-width="2.2" stroke-linecap="round" fill="none"/>
-                <!-- 볼 블러시 -->
-                <ellipse cx="36" cy="79" rx="6" ry="4.5" fill="#F9A8D4" opacity="0.55"/>
-                <ellipse cx="78" cy="79" rx="6" ry="4.5" fill="#F9A8D4" opacity="0.55"/>
+                <path d="M38 64 C46 60 54 63" stroke="#2A1808" stroke-width="2" fill="none" stroke-linecap="round"/>
+                <path d="M62 63 C70 60 78 64" stroke="#2A1808" stroke-width="2" fill="none" stroke-linecap="round"/>
+                <path d="M40 76 C46 78 52 76" stroke="#3A2010" stroke-width="1" fill="none" stroke-linecap="round" opacity="0.4"/>
+                <path d="M64 76 C70 78 76 76" stroke="#3A2010" stroke-width="1" fill="none" stroke-linecap="round" opacity="0.4"/>
+
+                <!-- 안경 (지브리 선생님 스타일 — 둥근 렌즈, 가는 프레임) -->
+                <ellipse cx="46" cy="70" rx="10" ry="8.5" fill="rgba(210,230,252,0.20)"/>
+                <ellipse cx="68" cy="70" rx="10" ry="8.5" fill="rgba(210,230,252,0.20)"/>
+                <ellipse cx="46" cy="70" rx="10" ry="8.5" fill="none" stroke="#4A3020" stroke-width="1.7"/>
+                <ellipse cx="68" cy="70" rx="10" ry="8.5" fill="none" stroke="#4A3020" stroke-width="1.7"/>
+                <!-- 코 브릿지 -->
+                <path d="M56 70 Q57 68 58 70" stroke="#4A3020" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                <!-- 안경 다리 -->
+                <path d="M35 67 Q32 67 30 69" stroke="#4A3020" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+                <path d="M79 67 Q82 67 84 69" stroke="#4A3020" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+                <!-- 렌즈 반짝임 (지브리 특징) -->
+                <path d="M39 65 L41 67" stroke="white" stroke-width="1.3" opacity="0.55" stroke-linecap="round"/>
+                <path d="M61 65 L63 67" stroke="white" stroke-width="1.3" opacity="0.55" stroke-linecap="round"/>
+
+                <!-- 볼 블러시 (따뜻하고 부드럽게) -->
+                <ellipse cx="33" cy="79" rx="7" ry="5" fill="#F08060" opacity="0.28"/>
+                <ellipse cx="81" cy="79" rx="7" ry="5" fill="#F08060" opacity="0.28"/>
+
                 <!-- 코 -->
-                <ellipse cx="57" cy="78" rx="2" ry="1.5" fill="#DDA070" opacity="0.55"/>
-                <!-- 입 -->
-                <path d="M48 85 C53 94 62 94 66 85" stroke="#374151" stroke-width="2" fill="#FECDD3" stroke-linecap="round"/>
+                <path d="M54 80 Q57 83 60 80" stroke="#C08060" stroke-width="1.3" fill="none" stroke-linecap="round" opacity="0.6"/>
+
+                <!-- 입 (온화한 지브리 미소) -->
+                <path d="M48 87 Q57 95 66 87" stroke="#B06040" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+                <path d="M50 85 Q57 83 64 85" stroke="#C07050" stroke-width="1" fill="none" stroke-linecap="round" opacity="0.35"/>
+
                 <!-- 목 -->
-                <rect x="50" y="95" width="14" height="10" rx="4" fill="#FDDCB5"/>
-                <!-- 몸통 (날씬한 주황 재킷) -->
-                <path d="M16 185 L16 152 C18 128 26 114 36 108 C44 103 51 105 57 113 C63 105 70 103 78 108 C88 114 96 128 98 152 L98 185 Z" fill="#F97316"/>
-                <!-- 흰 칼라 -->
-                <path d="M51 105 L57 115 L63 105 L59 101 L57 109 L55 101 Z" fill="white"/>
-                <rect x="54.5" y="115" width="5" height="28" rx="2.5" fill="white" opacity="0.85"/>
-                <!-- 왼팔 + Copy책 -->
-                <path d="M16 126 C22 120 34 126 34 132 L34 154 C26 162 16 158 16 152 Z" fill="#EA6C0A"/>
-                <!-- 책 -->
-                <rect x="7" y="118" width="30" height="40" rx="5" fill="#FB923C"/>
-                <rect x="7" y="118" width="7" height="40" rx="3" fill="#C2410C"/>
-                <rect x="14" y="120" width="21" height="36" rx="3" fill="#FFF7ED"/>
-                <line x1="17" y1="128" x2="32" y2="128" stroke="#FED7AA" stroke-width="1.2"/>
-                <line x1="17" y1="134" x2="32" y2="134" stroke="#FED7AA" stroke-width="1.2"/>
-                <line x1="17" y1="140" x2="32" y2="140" stroke="#FED7AA" stroke-width="1.2"/>
-                <text x="24" y="127" font-size="5.5" fill="#9A3412" font-weight="bold" text-anchor="middle">Copy</text>
+                <rect x="50" y="94" width="14" height="11" rx="4" fill="#F4C89A"/>
+
+                <!-- 흰 블라우스 칼라 -->
+                <path d="M44 106 L57 117 L70 106 L66 102 L57 111 L48 102 Z" fill="white"/>
+                <!-- 칼라 넥타이/리본 포인트 -->
+                <path d="M54 111 L57 116 L60 111 L57 107 Z" fill="#C86A30" opacity="0.55"/>
+
+                <!-- 몸통 (따뜻한 테라코타 재킷) -->
+                <path d="M16 185 L16 152 C18 128 27 114 38 108 C46 104 52 106 57 114 C62 106 68 104 76 108 C87 114 96 128 98 152 L98 185 Z" fill="#C86A30"/>
+                <!-- 재킷 음영 -->
+                <path d="M57 114 C52 106 46 104 38 108 C30 112 24 124 20 138" stroke="#A05020" stroke-width="2.5" fill="none" opacity="0.25"/>
+                <!-- 버튼 라인 -->
+                <rect x="55.5" y="117" width="3" height="22" rx="1.5" fill="#A05020" opacity="0.35"/>
+                <circle cx="57" cy="122" r="1.6" fill="#A05020" opacity="0.5"/>
+                <circle cx="57" cy="130" r="1.6" fill="#A05020" opacity="0.5"/>
+                <circle cx="57" cy="138" r="1.6" fill="#A05020" opacity="0.5"/>
+
+                <!-- 왼팔 + Copy 책 -->
+                <path d="M16 126 C22 120 34 126 34 132 L34 154 C26 162 16 158 16 152 Z" fill="#B86030"/>
+                <rect x="7" y="118" width="30" height="40" rx="5" fill="#D4763A"/>
+                <rect x="7" y="118" width="7" height="40" rx="3" fill="#9A4020"/>
+                <rect x="14" y="120" width="21" height="36" rx="3" fill="#FFF3E0"/>
+                <line x1="17" y1="128" x2="32" y2="128" stroke="#F0C080" stroke-width="1.2"/>
+                <line x1="17" y1="134" x2="32" y2="134" stroke="#F0C080" stroke-width="1.2"/>
+                <line x1="17" y1="140" x2="32" y2="140" stroke="#F0C080" stroke-width="1.2"/>
+                <text x="24" y="127" font-size="5.5" fill="#8B4020" font-weight="bold" text-anchor="middle">Copy</text>
+
                 <!-- 오른팔 (지시봉) -->
-                <path d="M98 120 C92 108 86 95 82 84 C78 80 74 83 76 88 C81 98 88 112 94 126 Z" fill="#EA6C0A"/>
-                <ellipse cx="80" cy="87" rx="7" ry="6" fill="#FDDCB5"/>
+                <path d="M98 120 C92 108 86 95 82 84 C78 80 74 83 76 88 C81 98 88 112 94 126 Z" fill="#B86030"/>
+                <ellipse cx="80" cy="86" rx="7" ry="6" fill="#F4C89A"/>
               </svg>
             </div>
             <div class="speech-bubble">
