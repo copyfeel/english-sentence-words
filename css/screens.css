@@ -719,8 +719,8 @@
 /* 타이머 링 */
 .timer-display {
   position: relative;
-  width: 90px;
-  height: 90px;
+  width: 45px;
+  height: 45px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -752,7 +752,7 @@
   animation: timerPulse 0.5s ease infinite alternate;
 }
 .timer-text {
-  font-size: 28px;
+  font-size: 14px;
   font-weight: 800;
   color: var(--clr-text);
   position: relative;
@@ -872,7 +872,7 @@
 .word-slot {
   min-width: 60px;
   height: 44px;
-  border-bottom: 2.5px solid var(--clr-primary);
+  border-bottom: 2.5px solid #6B7280;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -880,12 +880,25 @@
   border-radius: 4px 4px 0 0;
   position: relative;
 }
+/* 언더라인 아래 약한 그림자 */
+.word-slot::after {
+  content: '';
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  bottom: -5px;
+  height: 4px;
+  background: rgba(0,0,0,0.07);
+  border-radius: 50%;
+  filter: blur(2px);
+  pointer-events: none;
+}
 .word-slot.drag-over {
   background: var(--clr-primary-light);
-  border-bottom-color: var(--clr-primary-dark);
+  border-bottom-color: #4B5563;
 }
 .word-slot.filled {
-  border-bottom-color: var(--clr-secondary);
+  border-bottom-color: #4B5563;
 }
 .word-slot.correct-slot {
   border-bottom-color: var(--clr-secondary);
@@ -1111,19 +1124,23 @@
 
 /* 정답 완성 스피커 */
 .speaker-btn {
-  background: none;
+  background: var(--clr-primary-light);
   border: none;
-  font-size: 20px;
   cursor: pointer;
-  padding: 4px;
+  padding: 10px;
   display: inline-flex;
   align-items: center;
-  opacity: 0.8;
-  transition: opacity 0.15s, transform 0.15s;
-  vertical-align: middle;
-  margin-left: 4px;
+  justify-content: center;
+  color: var(--clr-primary);
+  border-radius: var(--radius-full);
+  opacity: 0.9;
+  transition: opacity 0.15s, transform 0.15s, background 0.15s;
+  margin-left: 8px;
+  box-shadow: var(--shadow-sm);
 }
 .speaker-btn:hover {
   opacity: 1;
-  transform: scale(1.15);
+  background: var(--clr-primary);
+  color: white;
+  transform: scale(1.08);
 }
