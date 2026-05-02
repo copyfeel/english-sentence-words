@@ -10,10 +10,10 @@ import { showToast }                 from '../utils/helpers.js';
 const BUBBLE_WORDS = ['영어', '문장', '완성', '게임'];
 
 const BUBBLE_CONFIGS = [
-  { leftPct: 10, topPct: 12, size: 80, floatCls: 'bubble-f1', delay: '0s'    },
-  { leftPct: 62, topPct:  8, size: 70, floatCls: 'bubble-f2', delay: '0.65s' },
-  { leftPct: 18, topPct: 52, size: 74, floatCls: 'bubble-f3', delay: '1.2s'  },
-  { leftPct: 65, topPct: 48, size: 66, floatCls: 'bubble-f4', delay: '0.35s' },
+  { leftPct:  9, topPct: 14, size: 86, floatCls: 'bubble-f1', delay: '0s',    irisDelay: '0s'    },
+  { leftPct: 61, topPct: 14, size: 62, floatCls: 'bubble-f2', delay: '0.65s', irisDelay: '1.5s'  },
+  { leftPct: 17, topPct: 46, size: 78, floatCls: 'bubble-f3', delay: '1.2s',  irisDelay: '2.9s'  },
+  { leftPct: 64, topPct: 42, size: 68, floatCls: 'bubble-f4', delay: '0.35s', irisDelay: '0.9s'  },
 ];
 
 let _poppedCount = 0;
@@ -75,6 +75,7 @@ function _initBubbles() {
       `height:${cfg.size}px`,
       `animation-delay:${cfg.delay}`,
     ].join(';');
+    bubble.style.setProperty('--iris-delay', cfg.irisDelay);
 
     bubble.innerHTML = `<span class="bubble-word">${word}</span>`;
 
