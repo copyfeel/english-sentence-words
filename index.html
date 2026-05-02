@@ -21,10 +21,9 @@
     ══════════════════════════════ -->
     <section id="screen-home" class="screen active">
       <button id="btn-admin" class="admin-icon-btn" aria-label="관리자 모드">
-        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="12" cy="12" r="3"/>
-          <path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/>
-          <path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
         </svg>
       </button>
       <div class="home-content">
@@ -35,14 +34,25 @@
           <span class="title-line1">English</span>
           <span class="title-line2">Sentence</span>
         </h1>
-        <p class="home-subtitle">영어 문장 완성 게임</p>
-        <button id="btn-start" class="btn-start">
-          <span>Game Start</span>
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M8 5v14l11-7z"/>
-          </svg>
-        </button>
-        <div id="home-question-count" class="home-count-badge none">등록된 문제 없음</div>
+        <!-- 비눗방울 씬 -->
+        <div id="bubble-scene" class="bubble-scene" aria-hidden="true"></div>
+        <!-- 단어 조립 영역 -->
+        <div id="subtitle-slots" class="subtitle-slots">
+          <span class="subtitle-slot" data-idx="0"></span>
+          <span class="subtitle-slot" data-idx="1"></span>
+          <span class="subtitle-slot" data-idx="2"></span>
+          <span class="subtitle-slot" data-idx="3"></span>
+        </div>
+        <!-- 하단 버튼 영역 -->
+        <div class="home-bottom">
+          <button id="btn-start" class="btn-start">
+            <span>Game Start</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M8 5v14l11-7z"/>
+            </svg>
+          </button>
+          <div id="home-question-count" class="home-count-badge none">등록된 문제 없음</div>
+        </div>
       </div>
     </section>
 
@@ -255,13 +265,16 @@
         </div>
 
         <div id="wrong-list-wrap" class="wrong-list-wrap" style="display:none">
-          <h3 class="wrong-list-title">오답 목록</h3>
+          <h3 id="wrong-list-title" class="wrong-list-title">오답 목록</h3>
           <div id="wrong-list" class="wrong-list"></div>
         </div>
 
         <div class="result-btns">
-          <button id="btn-retry-wrong" class="btn-secondary" style="display:none">오답 다시 풀기</button>
-          <button id="btn-end-game" class="btn-primary">홈으로</button>
+          <div class="result-btns-top">
+            <button id="btn-retry-wrong" class="btn-secondary" style="display:none">오답 다시 풀기</button>
+            <button id="btn-show-all" class="btn-secondary">출제 문제 정리</button>
+          </div>
+          <button id="btn-end-game" class="btn-end-light">홈으로</button>
         </div>
       </div>
     </section>

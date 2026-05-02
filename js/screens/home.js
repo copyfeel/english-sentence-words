@@ -7,6 +7,17 @@ import { ticker }                    from '../components/ticker.js';
 import { getSentences, getSelectedIds, getFilterLevels } from '../store.js';
 import { showToast }                 from '../utils/helpers.js';
 
+const BUBBLE_WORDS = ['영어', '문장', '완성', '게임'];
+
+const BUBBLE_CONFIGS = [
+  { leftPct: 10, topPct: 12, size: 80, floatCls: 'bubble-f1', delay: '0s'    },
+  { leftPct: 62, topPct:  8, size: 70, floatCls: 'bubble-f2', delay: '0.65s' },
+  { leftPct: 18, topPct: 52, size: 74, floatCls: 'bubble-f3', delay: '1.2s'  },
+  { leftPct: 65, topPct: 48, size: 66, floatCls: 'bubble-f4', delay: '0.35s' },
+];
+
+let _poppedCount = 0;
+
 export function initHome() {
   const btnStart   = document.getElementById('btn-start');
   const btnAdmin   = document.getElementById('btn-admin');
@@ -16,7 +27,6 @@ export function initHome() {
     const { sentences, error } = _getGameSentences();
     if (error) { showToast(error); return; }
 
-    // iOS 오디오/TTS 잠금 해제 (사용자 제스처 컨텍스트)
     tts.unlock();
     ticker.init();
 
@@ -31,12 +41,105 @@ export function initHome() {
     onEnter() {
       tts.stop();
       _updateCountBadge(countBadge);
+      _initBubbles();
     },
     onLeave() {},
   });
 }
 
-/** 게임에 출제할 문제 목록 결정 */
+/* ── 비눗방울 초기화 ──────────────────────── */
+function _initBubbles() {
+  const scene = document.getElementById('bubble-scene');
+  if (!scene) return;
+
+  scene.innerHTML = '';
+  _poppedCount    = 0;
+
+  const slots = document.querySelectorAll('.subtitle-slot');
+  slots.forEach(slot => {
+    slot.textContent = '';
+    slot.classList.remove('filled');
+  });
+
+  const slotsWrap = document.getElementById('subtitle-slots');
+  if (slotsWrap) slotsWrap.classList.remove('sentence-complete');
+
+  BUBBLE_WORDS.forEach((word, idx) => {
+    const cfg    = BUBBLE_CONFIGS[idx];
+    const bubble = document.createElement('div');
+    bubble.className = `bubble ${cfg.floatCls}`;
+    bubble.style.cssText = [
+      `left:${cfg.leftPct}%`,
+      `top:${cfg.topPct}%`,
+      `width:${cfg.size}px`,
+      `height:${cfg.size}px`,
+      `animation-delay:${cfg.delay}`,
+    ].join(';');
+
+    bubble.innerHTML = `<span class="bubble-word">${word}</span>`;
+
+    const onPop = (e) => {
+      e.preventDefault();
+      _popBubble(bubble, idx);
+    };
+    bubble.addEventListener('click', onPop);
+    bubble.addEventListener('touchend', onPop, { passive: false });
+
+    scene.appendChild(bubble);
+  });
+}
+
+/* ── 비눗방울 팝 + 단어 이동 ──────────────── */
+function _popBubble(bubble, idx) {
+  if (bubble.dataset.popped) return;
+  bubble.dataset.popped = 'true';
+  bubble.classList.add('popping');
+
+  const bRect = bubble.getBoundingClientRect();
+  const cx    = bRect.left + bRect.width  / 2;
+  const cy    = bRect.top  + bRect.height / 2;
+
+  const flyer = document.createElement('span');
+  flyer.className    = 'word-flyer';
+  flyer.textContent  = BUBBLE_WORDS[idx];
+  flyer.style.left   = `${cx}px`;
+  flyer.style.top    = `${cy}px`;
+  document.body.appendChild(flyer);
+
+  setTimeout(() => {
+    bubble.style.visibility = 'hidden';
+
+    const slot = document.querySelector(`.subtitle-slot[data-idx="${idx}"]`);
+    if (!slot) { flyer.remove(); return; }
+
+    const sRect = slot.getBoundingClientRect();
+    const tx    = sRect.left + sRect.width  / 2;
+    const ty    = sRect.top  + sRect.height / 2;
+
+    flyer.style.transition = [
+      'left 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+      'top  0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+    ].join(',');
+    flyer.style.left = `${tx}px`;
+    flyer.style.top  = `${ty}px`;
+
+    setTimeout(() => {
+      flyer.remove();
+      slot.textContent = BUBBLE_WORDS[idx];
+      slot.classList.add('filled');
+
+      _poppedCount++;
+      if (_poppedCount === BUBBLE_WORDS.length) _onAllPopped();
+    }, 470);
+  }, 280);
+}
+
+function _onAllPopped() {
+  const slotsWrap = document.getElementById('subtitle-slots');
+  if (slotsWrap) slotsWrap.classList.add('sentence-complete');
+}
+
+/* ── 게임 문제 목록 결정 ──────────────────── */
 function _getGameSentences() {
   const all          = getSentences();
   const filterLevels = getFilterLevels();
@@ -46,23 +149,20 @@ function _getGameSentences() {
     return { error: '📝 먼저 관리자에서 문제를 추가해주세요!' };
   }
 
-  // 레벨 필터가 설정된 경우
   if (filterLevels.length > 0) {
-    const levelSet   = new Set(filterLevels);
-    const filtered   = all.filter(s => levelSet.has(s.level));
+    const levelSet = new Set(filterLevels);
+    const filtered = all.filter(s => levelSet.has(s.level));
     if (filtered.length === 0) {
       return { error: '⚠️ 선택된 레벨에 문제가 없습니다. 관리자에서 확인해주세요.' };
     }
-    // 필터된 목록 중 체크된 항목이 있으면 그것만, 없으면 필터된 전체
     if (selectedIds.length > 0) {
-      const idSet    = new Set(selectedIds);
-      const checked  = filtered.filter(s => idSet.has(s.id));
+      const idSet   = new Set(selectedIds);
+      const checked = filtered.filter(s => idSet.has(s.id));
       if (checked.length > 0) return { sentences: checked };
     }
     return { sentences: filtered };
   }
 
-  // 레벨 필터 없음: 체크된 항목이 있으면 해당 문제만, 없으면 전체
   if (selectedIds.length > 0) {
     const idSet     = new Set(selectedIds);
     const sentences = all.filter(s => idSet.has(s.id));
@@ -75,7 +175,7 @@ function _getGameSentences() {
   return { sentences: all };
 }
 
-/** 홈 화면 배지 업데이트 */
+/* ── 홈 화면 배지 업데이트 ────────────────── */
 function _updateCountBadge(badge) {
   if (!badge) return;
   const all          = getSentences();
@@ -92,7 +192,6 @@ function _updateCountBadge(badge) {
     const levelSet   = new Set(filterLevels);
     const filtered   = all.filter(s => levelSet.has(s.level));
     const levelNames = [...filterLevels].sort().map(l => `Lv.${l}`).join('+');
-    // 필터된 목록 중 체크된 항목이 있으면 그 수를 표시
     const idSet      = new Set(selectedIds);
     const checked    = filtered.filter(s => idSet.has(s.id));
     const count      = checked.length > 0 ? checked.length : filtered.length;

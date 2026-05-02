@@ -57,9 +57,109 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
   position: relative;
   z-index: 1;
+  width: 100%;
+  max-width: 480px;
+}
+
+/* 비눗방울 씬 */
+.bubble-scene {
+  position: relative;
+  width: 100%;
+  height: clamp(170px, 28dvh, 220px);
+  overflow: visible;
+}
+
+/* 단어 조립 영역 */
+.subtitle-slots {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  min-height: 40px;
+}
+
+.subtitle-slot {
+  min-width: 52px;
+  padding: 4px 10px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 2px solid rgba(255,255,255,0.3);
+  color: transparent;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  transition: color 0.3s, border-color 0.3s;
+}
+
+.subtitle-slot.filled {
+  color: rgba(255,255,255,0.9);
+  border-bottom-color: rgba(255,255,255,0.75);
+}
+
+/* 하단 버튼 영역 (스타트 버튼 + 배지) */
+.home-bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+/* 비눗방울 */
+.bubble {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle at 32% 30%,
+    rgba(255,255,255,0.55) 0%,
+    rgba(255,255,255,0.18) 40%,
+    rgba(255,255,255,0.05) 70%,
+    transparent 100%
+  );
+  border: 1.5px solid rgba(255,255,255,0.45);
+  box-shadow:
+    inset 0 -3px 6px rgba(255,255,255,0.2),
+    0 4px 14px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  touch-action: manipulation;
+}
+
+.bubble-word {
+  font-size: 15px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.95);
+  text-shadow: 0 1px 4px rgba(0,0,0,0.25);
+  pointer-events: none;
+  letter-spacing: 0.02em;
+}
+
+.bubble.popping {
+  animation: bubblePop 0.28s ease-out forwards !important;
+  pointer-events: none;
+}
+
+/* 날아가는 단어 */
+.word-flyer {
+  position: fixed;
+  font-size: 16px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.95);
+  text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
 }
 
 .home-logo {
@@ -1005,7 +1105,10 @@
   background: linear-gradient(145deg, #312E81 0%, #4F46E5 60%, #6D28D9 100%);
   align-items: center;
   justify-content: center;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
   position: relative;
 }
 
@@ -1120,11 +1223,35 @@
 
 .result-btns {
   display: flex;
-  gap: 12px;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
   width: 100%;
-  flex-wrap: wrap;
-  justify-content: center;
 }
+
+.result-btns-top {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn-end-light {
+  padding: 13px 48px;
+  border-radius: var(--radius-full);
+  background: rgba(255,255,255,0.22);
+  color: rgba(255,255,255,0.92);
+  border: 1.5px solid rgba(255,255,255,0.42);
+  font-size: 15px;
+  font-weight: 700;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: background 0.2s, transform 0.15s;
+  text-align: center;
+}
+.btn-end-light:hover  { background: rgba(255,255,255,0.32); }
+.btn-end-light:active { transform: scale(0.97); }
 
 /* 정답 완성 스피커 */
 .speaker-btn {
