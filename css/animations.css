@@ -81,62 +81,73 @@
   40%            { transform: translateY(-6px); }
 }
 
-/* ── 비눗방울 타원 궤도 — 45° 간격 8점으로 부드러운 곡선 경로 ── */
-/* 이동 범위 ±52px, 크기 0.68~1.38배(±35%), 아래=크게·위=작게 */
+/* ── 비눗방울 자연 표류 — 유기적 12점 경로, 이동 ±25px, 크기 ±7% ── */
 
 @keyframes bubbleFloat1 {
-  /* 시계방향 · 오른쪽 출발 */
-  0%   { transform: translate( 52px,  0px) scale(1.00); }
-  12%  { transform: translate( 37px, 30px) scale(1.22); }
-  25%  { transform: translate(  0px, 43px) scale(1.38); }
-  37%  { transform: translate(-37px, 30px) scale(1.20); }
-  50%  { transform: translate(-52px,  0px) scale(0.90); }
-  62%  { transform: translate(-37px,-30px) scale(0.72); }
-  75%  { transform: translate(  0px,-43px) scale(0.68); }
-  87%  { transform: translate( 37px,-30px) scale(0.82); }
-  100% { transform: translate( 52px,  0px) scale(1.00); }
+  0%   { transform: translate(  0px,   0px) scale(1.00); }
+  8%   { transform: translate( 16px,  -5px) scale(1.02); }
+  17%  { transform: translate( 25px,  10px) scale(1.05); }
+  25%  { transform: translate( 22px,  22px) scale(1.07); }
+  33%  { transform: translate(  8px,  24px) scale(1.06); }
+  42%  { transform: translate(-14px,  20px) scale(1.04); }
+  50%  { transform: translate(-24px,   5px) scale(0.99); }
+  58%  { transform: translate(-20px, -13px) scale(0.96); }
+  67%  { transform: translate( -7px, -22px) scale(0.93); }
+  75%  { transform: translate( 11px, -18px) scale(0.95); }
+  83%  { transform: translate( 22px,  -5px) scale(0.98); }
+  92%  { transform: translate( 10px,   6px) scale(1.01); }
+  100% { transform: translate(  0px,   0px) scale(1.00); }
 }
 @keyframes bubbleFloat2 {
-  /* 반시계방향 · 위쪽 출발 */
-  0%   { transform: translate(  0px,-40px) scale(0.68); }
-  12%  { transform: translate(-34px,-28px) scale(0.74); }
-  25%  { transform: translate(-48px,  0px) scale(0.92); }
-  37%  { transform: translate(-34px, 28px) scale(1.25); }
-  50%  { transform: translate(  0px, 40px) scale(1.38); }
-  62%  { transform: translate( 34px, 28px) scale(1.22); }
-  75%  { transform: translate( 48px,  0px) scale(0.95); }
-  87%  { transform: translate( 34px,-28px) scale(0.76); }
-  100% { transform: translate(  0px,-40px) scale(0.68); }
+  0%   { transform: translate(  0px, -20px) scale(0.93); }
+  8%   { transform: translate(-10px, -15px) scale(0.95); }
+  17%  { transform: translate(-22px,  -2px) scale(0.98); }
+  25%  { transform: translate(-20px,  14px) scale(1.04); }
+  33%  { transform: translate( -8px,  23px) scale(1.07); }
+  42%  { transform: translate(  8px,  20px) scale(1.06); }
+  50%  { transform: translate( 22px,   8px) scale(1.01); }
+  58%  { transform: translate( 23px,  -8px) scale(0.97); }
+  67%  { transform: translate( 14px, -20px) scale(0.94); }
+  75%  { transform: translate(  2px, -23px) scale(0.93); }
+  83%  { transform: translate( -8px, -16px) scale(0.93); }
+  92%  { transform: translate( -5px,  -8px) scale(0.93); }
+  100% { transform: translate(  0px, -20px) scale(0.93); }
 }
 @keyframes bubbleFloat3 {
-  /* 시계방향 · 아래쪽 출발 */
-  0%   { transform: translate(  0px, 44px) scale(1.38); }
-  12%  { transform: translate( 33px, 31px) scale(1.18); }
-  25%  { transform: translate( 46px,  0px) scale(0.95); }
-  37%  { transform: translate( 33px,-31px) scale(0.75); }
-  50%  { transform: translate(  0px,-44px) scale(0.68); }
-  62%  { transform: translate(-33px,-31px) scale(0.78); }
-  75%  { transform: translate(-46px,  0px) scale(0.98); }
-  87%  { transform: translate(-33px, 31px) scale(1.25); }
-  100% { transform: translate(  0px, 44px) scale(1.38); }
+  0%   { transform: translate(  0px,  22px) scale(1.07); }
+  8%   { transform: translate( 13px,  18px) scale(1.05); }
+  17%  { transform: translate( 24px,   5px) scale(1.00); }
+  25%  { transform: translate( 22px, -12px) scale(0.96); }
+  33%  { transform: translate( 10px, -22px) scale(0.93); }
+  42%  { transform: translate( -5px, -23px) scale(0.93); }
+  50%  { transform: translate(-22px, -12px) scale(0.95); }
+  58%  { transform: translate(-24px,   3px) scale(0.99); }
+  67%  { transform: translate(-18px,  16px) scale(1.04); }
+  75%  { transform: translate( -5px,  22px) scale(1.07); }
+  83%  { transform: translate(  8px,  20px) scale(1.06); }
+  92%  { transform: translate(  6px,  14px) scale(1.04); }
+  100% { transform: translate(  0px,  22px) scale(1.07); }
 }
 @keyframes bubbleFloat4 {
-  /* 반시계방향 · 왼쪽 출발 */
-  0%   { transform: translate(-50px,  0px) scale(0.90); }
-  12%  { transform: translate(-35px, 30px) scale(1.18); }
-  25%  { transform: translate(  0px, 42px) scale(1.38); }
-  37%  { transform: translate( 35px, 30px) scale(1.15); }
-  50%  { transform: translate( 50px,  0px) scale(0.88); }
-  62%  { transform: translate( 35px,-30px) scale(0.72); }
-  75%  { transform: translate(  0px,-42px) scale(0.68); }
-  87%  { transform: translate(-35px,-30px) scale(0.78); }
-  100% { transform: translate(-50px,  0px) scale(0.90); }
+  0%   { transform: translate(-22px,   0px) scale(0.97); }
+  8%   { transform: translate(-18px,  14px) scale(1.03); }
+  17%  { transform: translate( -5px,  22px) scale(1.07); }
+  25%  { transform: translate(  9px,  20px) scale(1.06); }
+  33%  { transform: translate( 20px,   8px) scale(1.01); }
+  42%  { transform: translate( 22px,  -8px) scale(0.97); }
+  50%  { transform: translate( 14px, -18px) scale(0.93); }
+  58%  { transform: translate(  2px, -22px) scale(0.93); }
+  67%  { transform: translate(-12px, -16px) scale(0.94); }
+  75%  { transform: translate(-22px,  -4px) scale(0.97); }
+  83%  { transform: translate(-20px,   8px) scale(1.02); }
+  92%  { transform: translate(-16px,   4px) scale(0.99); }
+  100% { transform: translate(-22px,   0px) scale(0.97); }
 }
 
-.bubble-f1 { animation: bubbleFloat1  8.2s ease-in-out infinite; }
-.bubble-f2 { animation: bubbleFloat2 10.0s ease-in-out infinite; }
-.bubble-f3 { animation: bubbleFloat3  7.4s ease-in-out infinite; }
-.bubble-f4 { animation: bubbleFloat4  9.6s ease-in-out infinite; }
+.bubble-f1 { animation: bubbleFloat1 22s ease-in-out infinite; }
+.bubble-f2 { animation: bubbleFloat2 28s ease-in-out infinite; }
+.bubble-f3 { animation: bubbleFloat3 19s ease-in-out infinite; }
+.bubble-f4 { animation: bubbleFloat4 24s ease-in-out infinite; }
 
 /* 무지개 박막 흐름 */
 @keyframes iridescentShift {
