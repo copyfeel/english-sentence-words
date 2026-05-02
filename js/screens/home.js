@@ -54,6 +54,15 @@ function _initBubbles() {
   const slotsWrap = document.getElementById('subtitle-slots');
   if (!scene) return;
 
+  /* 이전 gather로 숨겨진 요소들 원상 복구 */
+  [document.querySelector('.home-logo'), document.querySelector('.home-title')].forEach(el => {
+    if (el) el.style.cssText = '';
+  });
+  const _content = document.querySelector('.home-content');
+  if (_content) { _content.style.transition = ''; _content.style.gap = ''; }
+  scene.style.height = ''; scene.style.opacity = '';
+  scene.style.overflow = ''; scene.style.transition = '';
+
   scene.innerHTML = '';
   _poppedCount    = 0;
 
@@ -137,18 +146,47 @@ function _popBubble(bubble, idx) {
 }
 
 function _onAllPopped() {
+  /* 로고·타이틀·버블씬을 접어서 콘텐츠가 화면 중앙으로 모이게 */
+  _gatherToCenter();
+
   const slotsWrap = document.getElementById('subtitle-slots');
   if (!slotsWrap) return;
 
-  /* 단어들을 공백 하나씩 띄워 가운데로 모이게 */
   const sentence = BUBBLE_WORDS.join(' ');
   slotsWrap.innerHTML = `<span id="sentence-gathered" class="sentence-gathered">${sentence}</span>`;
 
-  /* gather 애니메이션 후 두 번 깜박임 */
+  /* gather 완료 후 두 번 통통 튀기 */
   setTimeout(() => {
     const el = document.getElementById('sentence-gathered');
-    if (el) el.classList.add('sentence-blink');
+    if (el) el.classList.add('sentence-bounce');
   }, 950);
+}
+
+function _gatherToCenter() {
+  const toCollapse = [
+    document.querySelector('.home-logo'),
+    document.querySelector('.home-title'),
+    document.getElementById('bubble-scene'),
+  ].filter(Boolean);
+
+  /* 현재 높이를 명시적으로 고정해야 height 트랜지션이 작동 */
+  toCollapse.forEach(el => {
+    el.style.height   = el.getBoundingClientRect().height + 'px';
+    el.style.overflow = 'hidden';
+  });
+
+  requestAnimationFrame(() => {
+    toCollapse.forEach(el => {
+      el.style.transition = 'height 0.8s cubic-bezier(0.4,0,0.2,1), opacity 0.55s ease';
+      el.style.height     = '0';
+      el.style.opacity    = '0';
+    });
+    const content = document.querySelector('.home-content');
+    if (content) {
+      content.style.transition = 'gap 0.8s ease';
+      content.style.gap        = '0';
+    }
+  });
 }
 
 /* ── 비눗방울 팝 사운드 (Web Audio API) ───── */

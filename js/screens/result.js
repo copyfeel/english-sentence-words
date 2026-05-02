@@ -21,18 +21,18 @@ let _bgGain         = null;
 let _bgLoopTimer    = null;
 
 /* 반달 — 윤극영 작사·작곡, 1924년, 완전 공개 도메인 */
-const C4    = 261.63;
-/* F장조 음계: F G A Bb C D E F5 */
-const SCALE = [0,2,4,5,7,9,11,12].map(s => C4 * Math.pow(2, (s + 5) / 12));
+const C5    = 523.25;
+/* F장조 음계 (어린이 음역대 C5 기준): F5 G5 A5 Bb5 C6 D6 E6 F6 */
+const SCALE = [0,2,4,5,7,9,11,12].map(s => C5 * Math.pow(2, (s + 5) / 12));
 const MELODY = [
-  4,4,5,5,4,4,2,      /* 푸-른-하-늘-은-하-수   */
-  3,3,2,1,0,          /* 하-얀-쪽-배-엔         */
-  2,2,3,3,2,1,0,      /* 계-수-나-무-한-나-무    */
-  0,1,2,1,0,          /* 토-끼-한-마-리         */
-  2,2,3,3,2,1,2,3,    /* 돛-대-도-아-니-달-고   */
-  4,5,4,4,2,          /* 삿-대-도-없-이         */
-  2,2,3,3,2,1,0,      /* 가-기-도-잘-도-간-다   */
-  1,0,                /* 서-쪽              */
+  4,4,5,5,4,4,2,      /* 솔솔라라솔솔미  (푸른하늘은하수)    */
+  3,3,2,1,0,          /* 파파미레도      (하얀쪽배엔)        */
+  1,1,2,2,1,0,0,      /* 레레미미레도도  (계수나무한나무)     */
+  0,1,2,1,0,          /* 도레미레도      (토끼한마리)        */
+  1,1,2,2,1,0,1,2,    /* 레레미미레도레미 (돛대도아니달고)    */
+  4,5,4,4,2,          /* 솔라솔솔미      (삿대도없이)        */
+  1,1,2,2,1,0,0,      /* 레레미미레도도  (가기도잘도간다)    */
+  1,0,                /* 레도            (서쪽나라로)        */
 ];
 
 export function initResult() {
@@ -164,39 +164,54 @@ function _playBgMusic() {
     _bgGain.gain.linearRampToValueAtTime(0.22, _bgCtx.currentTime + 0.8);
     _bgGain.connect(_bgCtx.destination);
 
-    /* 합창 음색: PeriodicWave 홀수 배음 + 두 오실레이터 약간 디튠 */
-    const real = new Float32Array([0, 1, 0, 0.42, 0, 0.16, 0, 0.06]);
-    const imag = new Float32Array(real.length);
-    const wave = _bgCtx.createPeriodicWave(real, imag, { disableNormalization: false });
-
     const beatSec = 0.52;
+    /* 세 성부를 미세하게 디튠 — 합창의 '두께감' 구현 */
+    const CHOIR = [1.000, 1.007, 0.993];
+
+    function scheduleNote(freq, t) {
+      CHOIR.forEach(r => {
+        const osc  = _bgCtx.createOscillator();
+        const vib  = _bgCtx.createOscillator(); /* 비브라토 LFO */
+        const vibG = _bgCtx.createGain();
+        const filt = _bgCtx.createBiquadFilter();
+        const env  = _bgCtx.createGain();
+
+        /* 사인파보다 배음이 풍부한 sawtooth = 성대 진동에 가까운 음색 */
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(freq * r, t);
+
+        /* 비브라토: 100ms 후 서서히 심화 — 실제 어린이 노래처럼 */
+        vib.frequency.setValueAtTime(5.5, t);
+        vibG.gain.setValueAtTime(0, t);
+        vibG.gain.linearRampToValueAtTime(freq * r * 0.006, t + 0.10);
+        vib.connect(vibG);
+        vibG.connect(osc.frequency);
+
+        /* '아~' 모음 포먼트: bandpass ~900 Hz */
+        filt.type = 'bandpass';
+        filt.frequency.setValueAtTime(900, t);
+        filt.Q.setValueAtTime(2.5, t);
+
+        /* 부드러운 어택 → 유지 → 자연 감쇠 (숨결 느낌) */
+        env.gain.setValueAtTime(0, t);
+        env.gain.linearRampToValueAtTime(0.20, t + 0.06);
+        env.gain.setValueAtTime(0.20, t + beatSec * 0.60);
+        env.gain.linearRampToValueAtTime(0, t + beatSec * 0.92);
+
+        osc.connect(filt);
+        filt.connect(env);
+        env.connect(_bgGain);
+
+        const end = t + beatSec * 0.95;
+        vib.start(t); vib.stop(end);
+        osc.start(t); osc.stop(end);
+      });
+    }
 
     function scheduleLoop() {
       if (!_bgCtx || _bgCtx.state === 'closed') return;
       const t0 = _bgCtx.currentTime + 0.05;
-
-      MELODY.forEach((noteIdx, i) => {
-        const freq = SCALE[noteIdx];
-        const t    = t0 + i * beatSec;
-
-        /* 두 오실레이터를 약간 디튠해 합창 떨림 효과 */
-        [1.0, 1.004].forEach(detune => {
-          const osc  = _bgCtx.createOscillator();
-          const gain = _bgCtx.createGain();
-          osc.connect(gain);
-          gain.connect(_bgGain);
-          osc.setPeriodicWave(wave);
-          osc.frequency.setValueAtTime(freq * detune, t);
-          /* 60ms 어택 + 완만한 감쇠 → 아이들 합창 음색 */
-          gain.gain.setValueAtTime(0, t);
-          gain.gain.linearRampToValueAtTime(0.26, t + 0.06);
-          gain.gain.setValueAtTime(0.26, t + beatSec * 0.55);
-          gain.gain.linearRampToValueAtTime(0, t + beatSec * 0.92);
-          osc.start(t);
-          osc.stop(t + beatSec * 0.95);
-        });
-      });
-
+      MELODY.forEach((idx, i) => scheduleNote(SCALE[idx], t0 + i * beatSec));
       _bgLoopTimer = setTimeout(scheduleLoop, MELODY.length * beatSec * 1000 - 80);
     }
 
