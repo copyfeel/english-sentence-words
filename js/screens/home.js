@@ -10,10 +10,10 @@ import { showToast }                 from '../utils/helpers.js';
 const BUBBLE_WORDS = ['영어', '문장', '완성', '게임'];
 
 const BUBBLE_CONFIGS = [
-  { leftPct:  9, topPct: 14, size: 86, floatCls: 'bubble-f1', delay: '0s',    irisDelay: '0s'    },
-  { leftPct: 61, topPct: 14, size: 62, floatCls: 'bubble-f2', delay: '0.65s', irisDelay: '1.5s'  },
-  { leftPct: 17, topPct: 46, size: 78, floatCls: 'bubble-f3', delay: '1.2s',  irisDelay: '2.9s'  },
-  { leftPct: 64, topPct: 42, size: 68, floatCls: 'bubble-f4', delay: '0.35s', irisDelay: '0.9s'  },
+  { leftPct:  9, topPct: 14, size: 80, floatCls: 'bubble-f1', delay: '0s',    irisDelay: '0s'    },
+  { leftPct: 61, topPct: 14, size: 56, floatCls: 'bubble-f2', delay: '0.65s', irisDelay: '1.5s'  },
+  { leftPct: 17, topPct: 46, size: 72, floatCls: 'bubble-f3', delay: '1.2s',  irisDelay: '2.9s'  },
+  { leftPct: 64, topPct: 42, size: 62, floatCls: 'bubble-f4', delay: '0.35s', irisDelay: '0.9s'  },
 ];
 
 let _poppedCount = 0;
@@ -118,8 +118,8 @@ function _popBubble(bubble, idx) {
     const ty    = sRect.top  + sRect.height / 2;
 
     flyer.style.transition = [
-      'left 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-      'top  0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+      'left 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+      'top  0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
     ].join(',');
     flyer.style.left = `${tx}px`;
     flyer.style.top  = `${ty}px`;
@@ -131,7 +131,7 @@ function _popBubble(bubble, idx) {
 
       _poppedCount++;
       if (_poppedCount === BUBBLE_WORDS.length) _onAllPopped();
-    }, 470);
+    }, 940);
   }, 280);
 }
 

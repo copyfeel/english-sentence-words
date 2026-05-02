@@ -20,10 +20,18 @@ let _bgCtx          = null;
 let _bgGain         = null;
 let _bgLoopTimer    = null;
 
-/* C장조 펜타토닉 스케일 (잔잔한 배경음) */
+/* 반짝반짝 작은 별 — 1761년 작곡, 완전 공개 도메인 */
 const C4    = 261.63;
-const PENTA = [0, 2, 4, 7, 9, 12].map(s => C4 * Math.pow(2, s / 12));
-const MELODY = [0, 2, 3, 2, 4, 3, 2, 1, 0, 1, 2, 3, 4, 3, 5, 4];
+/* C장조 음계: C D E F G A B C5 */
+const SCALE = [0,2,4,5,7,9,11,12].map(s => C4 * Math.pow(2, s / 12));
+const MELODY = [
+  0,0,4,4,5,5,4,  /* 반짝-반짝-작-은-별-아-아  */
+  3,3,2,2,1,1,0,  /* 아-름-답-게-빛-나-네      */
+  4,4,3,3,2,2,1,  /* 동-쪽-하-늘-은-하-수      */
+  4,4,3,3,2,2,1,  /* 서-쪽-하-늘-은-하-수      */
+  0,0,4,4,5,5,4,  /* 반짝-반짝-작-은-별-아-아  */
+  3,3,2,2,1,1,0,  /* 아-름-답-게-빛-나-네      */
+];
 
 export function initResult() {
   $('btn-end-game').addEventListener('click', () => {
@@ -161,20 +169,21 @@ function _playBgMusic() {
       const t0 = _bgCtx.currentTime + 0.05;
 
       MELODY.forEach((noteIdx, i) => {
-        const freq = PENTA[noteIdx];
+        const freq = SCALE[noteIdx];
         const t    = t0 + i * beatSec;
         const osc  = _bgCtx.createOscillator();
         const gain = _bgCtx.createGain();
         osc.connect(gain);
         gain.connect(_bgGain);
-        osc.type = 'sine';
+        /* triangle 파형 = 뮤직박스처럼 따뜻하고 부드러운 음색 */
+        osc.type = 'triangle';
         osc.frequency.setValueAtTime(freq, t);
+        /* 짧은 어택 + 긴 감쇠 → 오르골(뮤직박스) 음색 */
         gain.gain.setValueAtTime(0, t);
-        gain.gain.linearRampToValueAtTime(0.38, t + 0.05);
-        gain.gain.setValueAtTime(0.38, t + beatSec * 0.62);
-        gain.gain.linearRampToValueAtTime(0, t + beatSec * 0.88);
+        gain.gain.linearRampToValueAtTime(0.30, t + 0.012);
+        gain.gain.exponentialRampToValueAtTime(0.001, t + beatSec * 0.80);
         osc.start(t);
-        osc.stop(t + beatSec);
+        osc.stop(t + beatSec * 0.85);
       });
 
       _bgLoopTimer = setTimeout(scheduleLoop, MELODY.length * beatSec * 1000 - 80);

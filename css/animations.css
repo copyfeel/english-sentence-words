@@ -81,42 +81,56 @@
   40%            { transform: translateY(-6px); }
 }
 
-/* ── 비눗방울 둥둥 애니메이션 (상하좌우·스케일·미세회전) ── */
+/* ── 비눗방울 둥둥 애니메이션 — 사방팔방 크게 이동 ── */
+/* 각 버블이 다른 버블의 영역까지 이동하며 화면 전체를 순회 */
 @keyframes bubbleFloat1 {
-  0%   { transform: translate(  0px,   0px) scale(1)     rotate(  0deg); }
-  18%  { transform: translate( 11px, -14px) scale(1.022) rotate( 1.3deg); }
-  42%  { transform: translate( -8px,   6px) scale(0.978) rotate(-1.0deg); }
-  64%  { transform: translate( 14px, -12px) scale(1.016) rotate( 1.9deg); }
-  84%  { transform: translate( -4px,   5px) scale(0.984) rotate(-0.7deg); }
-  100% { transform: translate(  0px,   0px) scale(1)     rotate(  0deg); }
+  /* 좌상단 시작 → 우상단 → 우하단 → 좌하단 → 복귀 */
+  0%   { transform: translate(   0px,   0px) scale(1)     rotate(  0.0deg); }
+  14%  { transform: translate(  82px,  16px) scale(1.022) rotate(  1.5deg); }
+  28%  { transform: translate( 162px,  -4px) scale(0.974) rotate( -1.0deg); }
+  44%  { transform: translate( 154px,  50px) scale(1.018) rotate(  2.2deg); }
+  58%  { transform: translate(  26px,  53px) scale(0.980) rotate( -1.8deg); }
+  72%  { transform: translate(  -7px,  22px) scale(1.015) rotate(  0.8deg); }
+  86%  { transform: translate(  44px,   8px) scale(0.986) rotate( -0.6deg); }
+  100% { transform: translate(   0px,   0px) scale(1)     rotate(  0.0deg); }
 }
 @keyframes bubbleFloat2 {
-  0%   { transform: translate(  0px,   0px) scale(1)     rotate(  0deg); }
-  24%  { transform: translate(-14px, -13px) scale(1.026) rotate(-1.6deg); }
-  48%  { transform: translate( 10px,   5px) scale(0.974) rotate( 0.9deg); }
-  76%  { transform: translate( -8px, -18px) scale(1.012) rotate(-2.0deg); }
-  100% { transform: translate(  0px,   0px) scale(1)     rotate(  0deg); }
+  /* 우상단 시작 → 우하단 → 좌하단 → 좌상단 → 복귀 */
+  0%   { transform: translate(   0px,   0px) scale(1)     rotate(  0.0deg); }
+  16%  { transform: translate(   9px,  48px) scale(1.022) rotate( -1.6deg); }
+  30%  { transform: translate(  -7px,  54px) scale(0.970) rotate(  1.2deg); }
+  46%  { transform: translate(-148px,  51px) scale(1.016) rotate( -2.0deg); }
+  60%  { transform: translate(-160px,  -7px) scale(0.978) rotate(  1.5deg); }
+  74%  { transform: translate( -74px,  19px) scale(1.012) rotate( -1.0deg); }
+  88%  { transform: translate( -21px,  31px) scale(0.990) rotate(  0.7deg); }
+  100% { transform: translate(   0px,   0px) scale(1)     rotate(  0.0deg); }
 }
 @keyframes bubbleFloat3 {
-  0%   { transform: translate(  0px,   0px) scale(1)     rotate(  0deg); }
-  16%  { transform: translate( 15px, -10px) scale(1.020) rotate( 1.7deg); }
-  44%  { transform: translate(-10px, -16px) scale(0.972) rotate(-1.3deg); }
-  68%  { transform: translate( 12px,   6px) scale(1.018) rotate( 2.1deg); }
-  86%  { transform: translate( -5px,  -8px) scale(0.988) rotate(-0.6deg); }
-  100% { transform: translate(  0px,   0px) scale(1)     rotate(  0deg); }
+  /* 좌하단 시작 → 좌상단 → 우상단 → 우하단 → 복귀 */
+  0%   { transform: translate(   0px,   0px) scale(1)     rotate(  0.0deg); }
+  18%  { transform: translate( -14px, -40px) scale(1.020) rotate(  1.8deg); }
+  34%  { transform: translate( 142px, -50px) scale(0.972) rotate( -1.4deg); }
+  50%  { transform: translate( 150px,  -5px) scale(1.018) rotate(  2.1deg); }
+  66%  { transform: translate(  44px,  -7px) scale(0.984) rotate( -1.2deg); }
+  80%  { transform: translate(  -4px, -22px) scale(1.010) rotate(  0.9deg); }
+  94%  { transform: translate( -10px,  -7px) scale(0.992) rotate( -0.5deg); }
+  100% { transform: translate(   0px,   0px) scale(1)     rotate(  0.0deg); }
 }
 @keyframes bubbleFloat4 {
-  0%   { transform: translate(  0px,   0px) scale(1)     rotate(  0deg); }
-  28%  { transform: translate(-16px, -12px) scale(0.976) rotate(-1.8deg); }
-  54%  { transform: translate(  9px,   6px) scale(1.024) rotate( 1.1deg); }
-  80%  { transform: translate(-11px, -20px) scale(0.982) rotate(-1.4deg); }
-  100% { transform: translate(  0px,   0px) scale(1)     rotate(  0deg); }
+  /* 우하단 시작 → 우상단 → 좌상단 → 좌하단 → 복귀 */
+  0%   { transform: translate(   0px,   0px) scale(1)     rotate(  0.0deg); }
+  18%  { transform: translate(  -7px, -46px) scale(0.975) rotate( -1.8deg); }
+  34%  { transform: translate(-174px, -44px) scale(1.024) rotate(  1.5deg); }
+  50%  { transform: translate(-167px,   5px) scale(0.978) rotate( -2.0deg); }
+  66%  { transform: translate( -67px,  10px) scale(1.016) rotate(  1.1deg); }
+  82%  { transform: translate( -17px, -28px) scale(0.986) rotate( -0.8deg); }
+  100% { transform: translate(   0px,   0px) scale(1)     rotate(  0.0deg); }
 }
 
-.bubble-f1 { animation: bubbleFloat1 4.4s ease-in-out infinite; }
-.bubble-f2 { animation: bubbleFloat2 5.2s ease-in-out infinite; }
-.bubble-f3 { animation: bubbleFloat3 3.9s ease-in-out infinite; }
-.bubble-f4 { animation: bubbleFloat4 5.7s ease-in-out infinite; }
+.bubble-f1 { animation: bubbleFloat1 7.5s ease-in-out infinite; }
+.bubble-f2 { animation: bubbleFloat2 8.8s ease-in-out infinite; }
+.bubble-f3 { animation: bubbleFloat3 6.9s ease-in-out infinite; }
+.bubble-f4 { animation: bubbleFloat4 9.2s ease-in-out infinite; }
 
 /* 무지개 박막 흐름 */
 @keyframes iridescentShift {
