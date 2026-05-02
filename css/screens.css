@@ -206,7 +206,7 @@
   width: 72px;
   height: 72px;
   border-radius: 20px;
-  background: rgba(130,130,140,0.5);
+  background: rgba(185,185,195,0.5);
   backdrop-filter: blur(10px);
   display: flex;
   align-items: center;
@@ -256,21 +256,22 @@
   gap: 7px;
   padding: 10px 22px;
   border-radius: var(--radius-full);
-  background: #E8A4B0;
-  color: #6B1A30;
+  background: rgba(255,255,255,0.30);
+  color: white;
   font-size: 14px;
   font-weight: 700;
-  letter-spacing: 0.02em;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.22);
-  transition: transform 0.15s, box-shadow 0.15s;
+  letter-spacing: 0.06em;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.22), inset 0 0 0 1.5px rgba(255,255,255,0.45);
+  transition: transform 0.15s, box-shadow 0.15s, background 0.15s;
 }
 .btn-start:hover {
+  background: rgba(255,255,255,0.40);
   transform: translateY(-2px);
-  box-shadow: 0 10px 28px rgba(0,0,0,0.26);
+  box-shadow: 0 10px 28px rgba(0,0,0,0.26), inset 0 0 0 1.5px rgba(255,255,255,0.55);
 }
 .btn-start:active {
   transform: translateY(0);
-  box-shadow: 0 3px 10px rgba(0,0,0,0.18);
+  box-shadow: 0 3px 10px rgba(0,0,0,0.18), inset 0 0 0 1.5px rgba(255,255,255,0.45);
 }
 
 /* 이미지 버블 안 사진 */
