@@ -76,49 +76,63 @@ function _initBubbles() {
       .join('');
   }
 
+  /* 매 진입마다 다른 시작 위치 + 다른 플로트 패턴 */
+  const _rnd = (min, max) => (min + Math.random() * (max - min)).toFixed(1);
+
+  /* 단어 버블용 4구역 — 셔플로 매번 다른 구역 배정 */
+  const WORD_ZONES = [
+    { l: [4,  28], t: [4,  36] }, /* 좌상 */
+    { l: [54, 76], t: [4,  36] }, /* 우상 */
+    { l: [4,  28], t: [40, 68] }, /* 좌하 */
+    { l: [54, 76], t: [40, 68] }, /* 우하 */
+  ];
+  const zoneOrder    = [0,1,2,3].sort(() => Math.random() - 0.5);
+  const FLOAT_POOL   = ['bubble-f1','bubble-f2','bubble-f3','bubble-f4'];
+  const floatShuffle = [...FLOAT_POOL].sort(() => Math.random() - 0.5);
+
   BUBBLE_WORDS.forEach((word, idx) => {
-    const cfg    = BUBBLE_CONFIGS[idx];
+    const cfg  = BUBBLE_CONFIGS[idx];
+    const zone = WORD_ZONES[zoneOrder[idx]];
     const bubble = document.createElement('div');
-    bubble.className = `bubble ${cfg.floatCls}`;
+    bubble.className = `bubble ${floatShuffle[idx]}`;
     bubble.style.cssText = [
-      `left:${cfg.leftPct}%`,
-      `top:${cfg.topPct}%`,
+      `left:${_rnd(...zone.l)}%`,
+      `top:${_rnd(...zone.t)}%`,
       `width:${cfg.size}px`,
       `height:${cfg.size}px`,
-      `animation-delay:${cfg.delay}`,
+      `animation-delay:${_rnd(0, 2.5)}s`,
     ].join(';');
-    bubble.style.setProperty('--iris-delay', cfg.irisDelay);
+    bubble.style.setProperty('--iris-delay', `${_rnd(0, 4)}s`);
 
     bubble.innerHTML = `<span class="bubble-word">${word}</span>`;
 
-    const onPop = (e) => {
-      e.preventDefault();
-      _popBubble(bubble, idx);
-    };
+    const onPop = (e) => { e.preventDefault(); _popBubble(bubble, idx); };
     bubble.addEventListener('click', onPop);
     bubble.addEventListener('touchend', onPop, { passive: false });
-
     scene.appendChild(bubble);
   });
 
-  /* 이미지 버블 렌더링 */
-  IMAGE_BUBBLE_CONFIGS.forEach(cfg => {
+  /* 이미지 버블 — 중앙 구역에서 랜덤 배치 */
+  const IMG_ZONES = [
+    { l: [28, 52], t: [4,  34] }, /* 중상 */
+    { l: [28, 52], t: [38, 66] }, /* 중하 */
+  ];
+  IMAGE_BUBBLE_CONFIGS.forEach((cfg, idx) => {
+    const zone  = IMG_ZONES[idx];
+    const float = FLOAT_POOL[Math.floor(Math.random() * 4)];
     const bubble = document.createElement('div');
-    bubble.className = `bubble ${cfg.floatCls}`;
+    bubble.className = `bubble ${float}`;
     bubble.style.cssText = [
-      `left:${cfg.leftPct}%`,
-      `top:${cfg.topPct}%`,
+      `left:${_rnd(...zone.l)}%`,
+      `top:${_rnd(...zone.t)}%`,
       `width:${cfg.size}px`,
       `height:${cfg.size}px`,
-      `animation-delay:${cfg.delay}`,
+      `animation-delay:${_rnd(0.5, 3)}s`,
     ].join(';');
-    bubble.style.setProperty('--iris-delay', cfg.irisDelay);
+    bubble.style.setProperty('--iris-delay', `${_rnd(0.5, 4.5)}s`);
     bubble.innerHTML = `<img src="${cfg.image}" class="bubble-img-fill" alt="" draggable="false">`;
 
-    const onPop = (e) => {
-      e.preventDefault();
-      _popImageBubble(bubble);
-    };
+    const onPop = (e) => { e.preventDefault(); _popImageBubble(bubble); };
     bubble.addEventListener('click', onPop);
     bubble.addEventListener('touchend', onPop, { passive: false });
     scene.appendChild(bubble);
