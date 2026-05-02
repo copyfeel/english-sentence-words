@@ -51,11 +51,12 @@ export function initResult() {
       item.innerHTML = `
         <div class="wrong-item-ko">
           <span class="wrong-item-ko-text">${i + 1}. ${_esc(q.korean)}</span>
-          <span class="wrong-speaker-btn" aria-hidden="true">${SPEAKER_SVG}</span>
+          <button class="wrong-speaker-btn" aria-label="영어 읽기">${SPEAKER_SVG}</button>
         </div>
         <div class="wrong-item-en">${_esc(q.english)}</div>
       `;
-      item.addEventListener('click', () => {
+      item.querySelector('.wrong-speaker-btn').addEventListener('click', (e) => {
+        e.stopPropagation();
         item.classList.add('reviewed');
         tts.speak(q.english);
       });
@@ -135,11 +136,12 @@ function _render({ session, questions }) {
       item.innerHTML = `
         <div class="wrong-item-ko">
           <span class="wrong-item-ko-text">${_esc(w.korean)}</span>
-          <span class="wrong-speaker-btn" aria-hidden="true">${SPEAKER_SVG}</span>
+          <button class="wrong-speaker-btn" aria-label="영어 읽기">${SPEAKER_SVG}</button>
         </div>
         <div class="wrong-item-en">${_esc(w.english)}</div>
       `;
-      item.addEventListener('click', () => {
+      item.querySelector('.wrong-speaker-btn').addEventListener('click', (e) => {
+        e.stopPropagation();
         item.classList.add('reviewed');
         tts.speak(w.english);
       });
