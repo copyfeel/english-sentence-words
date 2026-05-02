@@ -16,6 +16,12 @@ const BUBBLE_CONFIGS = [
   { leftPct: 64, topPct: 42, size: 62, floatCls: 'bubble-f4', delay: '0.35s', irisDelay: '0.9s'  },
 ];
 
+/* 이미지 버블 — 클릭/터치 시 그냥 사라짐 (단어 슬롯 연동 없음) */
+const IMAGE_BUBBLE_CONFIGS = [
+  { leftPct: 34, topPct:  6, size: 66, floatCls: 'bubble-f4', delay: '2.0s', irisDelay: '1.2s', image: 'images/bubble-girl1.png' },
+  { leftPct: 41, topPct: 54, size: 63, floatCls: 'bubble-f1', delay: '1.6s', irisDelay: '3.4s', image: 'images/bubble-girl2.png' },
+];
+
 let _poppedCount = 0;
 let _popCtx      = null;
 
@@ -94,6 +100,29 @@ function _initBubbles() {
 
     scene.appendChild(bubble);
   });
+
+  /* 이미지 버블 렌더링 */
+  IMAGE_BUBBLE_CONFIGS.forEach(cfg => {
+    const bubble = document.createElement('div');
+    bubble.className = `bubble ${cfg.floatCls}`;
+    bubble.style.cssText = [
+      `left:${cfg.leftPct}%`,
+      `top:${cfg.topPct}%`,
+      `width:${cfg.size}px`,
+      `height:${cfg.size}px`,
+      `animation-delay:${cfg.delay}`,
+    ].join(';');
+    bubble.style.setProperty('--iris-delay', cfg.irisDelay);
+    bubble.innerHTML = `<img src="${cfg.image}" class="bubble-img-fill" alt="" draggable="false">`;
+
+    const onPop = (e) => {
+      e.preventDefault();
+      _popImageBubble(bubble);
+    };
+    bubble.addEventListener('click', onPop);
+    bubble.addEventListener('touchend', onPop, { passive: false });
+    scene.appendChild(bubble);
+  });
 }
 
 /* ── 비눗방울 팝 + 단어 이동 ──────────────── */
@@ -140,6 +169,15 @@ function _popBubble(bubble, idx) {
       if (_poppedCount === BUBBLE_WORDS.length) _onAllPopped();
     }, 940);
   }, 280);
+}
+
+/* ── 이미지 버블: 그냥 사라짐 (단어 슬롯 무관) ── */
+function _popImageBubble(bubble) {
+  if (bubble.dataset.popped) return;
+  bubble.dataset.popped = 'true';
+  _playPopSound();
+  bubble.classList.add('popping');
+  setTimeout(() => { bubble.style.visibility = 'hidden'; }, 280);
 }
 
 function _onAllPopped() {

@@ -183,10 +183,10 @@
   to   { opacity: 1; letter-spacing: 0.12em; }
 }
 @keyframes sentenceBounce {
-  0%   { transform: scale(1)    translateY(0);   }
-  30%  { transform: scale(1.14) translateY(-8px); }
-  65%  { transform: scale(0.96) translateY(3px);  }
-  100% { transform: scale(1)    translateY(0);   }
+  0%   { transform: scale(1)    translateY(0);    }
+  35%  { transform: scale(1.13) translateY(-7px); }
+  70%  { transform: scale(0.97) translateY(2px);  }
+  100% { transform: scale(1)    translateY(0);    }
 }
 .sentence-gathered {
   display: block;
@@ -198,5 +198,5 @@
   animation: sentenceGather 0.85s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }
 .sentence-gathered.sentence-bounce {
-  animation: sentenceBounce 0.52s cubic-bezier(0.175, 0.885, 0.32, 1.275) 2;
+  animation: sentenceBounce 0.65s cubic-bezier(0.25, 0.46, 0.45, 0.94) 1 both;
 }

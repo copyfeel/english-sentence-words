@@ -206,12 +206,13 @@
   width: 72px;
   height: 72px;
   border-radius: 20px;
-  background: rgba(255,255,255,0.2);
+  background: rgba(130,130,140,0.5);
   backdrop-filter: blur(10px);
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid rgba(255,255,255,0.3);
+  border: 2px solid rgba(255,255,255,0.25);
+  margin-bottom: 14px;
 }
 
 .logo-icon {
@@ -249,27 +250,39 @@
 }
 
 .btn-start {
-  margin-top: 16px;
+  margin-top: 10px;
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 16px 36px;
+  gap: 7px;
+  padding: 10px 22px;
   border-radius: var(--radius-full);
-  background: white;
-  color: var(--clr-primary);
-  font-size: 17px;
+  background: #E8A4B0;
+  color: #6B1A30;
+  font-size: 14px;
   font-weight: 700;
   letter-spacing: 0.02em;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.22);
   transition: transform 0.15s, box-shadow 0.15s;
 }
 .btn-start:hover {
   transform: translateY(-2px);
-  box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+  box-shadow: 0 10px 28px rgba(0,0,0,0.26);
 }
 .btn-start:active {
   transform: translateY(0);
-  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+  box-shadow: 0 3px 10px rgba(0,0,0,0.18);
+}
+
+/* 이미지 버블 안 사진 */
+.bubble-img-fill {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  z-index: 0;
+  pointer-events: none;
 }
 
 /* 홈 화면 문제 수 배지 */
