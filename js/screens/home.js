@@ -169,24 +169,22 @@ function _gatherToCenter() {
     document.getElementById('bubble-scene'),
   ].filter(Boolean);
 
-  /* 현재 높이를 명시적으로 고정해야 height 트랜지션이 작동 */
+  /* 현재 높이를 고정한 뒤 reflow를 강제해야 height 트랜지션이 그 자리에서 작동 */
   toCollapse.forEach(el => {
     el.style.height   = el.getBoundingClientRect().height + 'px';
     el.style.overflow = 'hidden';
+    void el.offsetHeight; // 브라우저에 레이아웃 확정 강제 — 이후 transition 적용
+    el.style.transition = 'height 0.8s cubic-bezier(0.4,0,0.2,1), opacity 0.6s ease';
+    el.style.height     = '0';
+    el.style.opacity    = '0';
   });
 
-  requestAnimationFrame(() => {
-    toCollapse.forEach(el => {
-      el.style.transition = 'height 0.8s cubic-bezier(0.4,0,0.2,1), opacity 0.55s ease';
-      el.style.height     = '0';
-      el.style.opacity    = '0';
-    });
-    const content = document.querySelector('.home-content');
-    if (content) {
-      content.style.transition = 'gap 0.8s ease';
-      content.style.gap        = '0';
-    }
-  });
+  const content = document.querySelector('.home-content');
+  if (content) {
+    void content.offsetWidth;
+    content.style.transition = 'gap 0.8s ease';
+    content.style.gap        = '0';
+  }
 }
 
 /* ── 비눗방울 팝 사운드 (Web Audio API) ───── */
