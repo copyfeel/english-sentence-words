@@ -176,3 +176,25 @@
   display: inline-block;
   width: 0.28em;
 }
+
+/* ── 단어 모이기 + 깜박임 ────────────────────── */
+@keyframes sentenceGather {
+  from { opacity: 0; letter-spacing: 0.6em; }
+  to   { opacity: 1; letter-spacing: 0.12em; }
+}
+@keyframes sentenceBlink {
+  0%, 100% { opacity: 1; }
+  40%       { opacity: 0; }
+}
+.sentence-gathered {
+  display: block;
+  text-align: center;
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: rgba(255,255,255,0.95);
+  letter-spacing: 0.12em;
+  animation: sentenceGather 0.85s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+.sentence-gathered.sentence-blink {
+  animation: sentenceBlink 0.42s ease-in-out 2;
+}

@@ -20,17 +20,19 @@ let _bgCtx          = null;
 let _bgGain         = null;
 let _bgLoopTimer    = null;
 
-/* 반짝반짝 작은 별 — 1761년 작곡, 완전 공개 도메인 */
+/* 반달 — 윤극영 작사·작곡, 1924년, 완전 공개 도메인 */
 const C4    = 261.63;
-/* C장조 음계: C D E F G A B C5 */
-const SCALE = [0,2,4,5,7,9,11,12].map(s => C4 * Math.pow(2, s / 12));
+/* F장조 음계: F G A Bb C D E F5 */
+const SCALE = [0,2,4,5,7,9,11,12].map(s => C4 * Math.pow(2, (s + 5) / 12));
 const MELODY = [
-  0,0,4,4,5,5,4,  /* 반짝-반짝-작-은-별-아-아  */
-  3,3,2,2,1,1,0,  /* 아-름-답-게-빛-나-네      */
-  4,4,3,3,2,2,1,  /* 동-쪽-하-늘-은-하-수      */
-  4,4,3,3,2,2,1,  /* 서-쪽-하-늘-은-하-수      */
-  0,0,4,4,5,5,4,  /* 반짝-반짝-작-은-별-아-아  */
-  3,3,2,2,1,1,0,  /* 아-름-답-게-빛-나-네      */
+  4,4,5,5,4,4,2,      /* 푸-른-하-늘-은-하-수   */
+  3,3,2,1,0,          /* 하-얀-쪽-배-엔         */
+  2,2,3,3,2,1,0,      /* 계-수-나-무-한-나-무    */
+  0,1,2,1,0,          /* 토-끼-한-마-리         */
+  2,2,3,3,2,1,2,3,    /* 돛-대-도-아-니-달-고   */
+  4,5,4,4,2,          /* 삿-대-도-없-이         */
+  2,2,3,3,2,1,0,      /* 가-기-도-잘-도-간-다   */
+  1,0,                /* 서-쪽              */
 ];
 
 export function initResult() {
@@ -162,7 +164,12 @@ function _playBgMusic() {
     _bgGain.gain.linearRampToValueAtTime(0.22, _bgCtx.currentTime + 0.8);
     _bgGain.connect(_bgCtx.destination);
 
-    const beatSec = 0.55;
+    /* 합창 음색: PeriodicWave 홀수 배음 + 두 오실레이터 약간 디튠 */
+    const real = new Float32Array([0, 1, 0, 0.42, 0, 0.16, 0, 0.06]);
+    const imag = new Float32Array(real.length);
+    const wave = _bgCtx.createPeriodicWave(real, imag, { disableNormalization: false });
+
+    const beatSec = 0.52;
 
     function scheduleLoop() {
       if (!_bgCtx || _bgCtx.state === 'closed') return;
@@ -171,19 +178,23 @@ function _playBgMusic() {
       MELODY.forEach((noteIdx, i) => {
         const freq = SCALE[noteIdx];
         const t    = t0 + i * beatSec;
-        const osc  = _bgCtx.createOscillator();
-        const gain = _bgCtx.createGain();
-        osc.connect(gain);
-        gain.connect(_bgGain);
-        /* triangle 파형 = 뮤직박스처럼 따뜻하고 부드러운 음색 */
-        osc.type = 'triangle';
-        osc.frequency.setValueAtTime(freq, t);
-        /* 짧은 어택 + 긴 감쇠 → 오르골(뮤직박스) 음색 */
-        gain.gain.setValueAtTime(0, t);
-        gain.gain.linearRampToValueAtTime(0.30, t + 0.012);
-        gain.gain.exponentialRampToValueAtTime(0.001, t + beatSec * 0.80);
-        osc.start(t);
-        osc.stop(t + beatSec * 0.85);
+
+        /* 두 오실레이터를 약간 디튠해 합창 떨림 효과 */
+        [1.0, 1.004].forEach(detune => {
+          const osc  = _bgCtx.createOscillator();
+          const gain = _bgCtx.createGain();
+          osc.connect(gain);
+          gain.connect(_bgGain);
+          osc.setPeriodicWave(wave);
+          osc.frequency.setValueAtTime(freq * detune, t);
+          /* 60ms 어택 + 완만한 감쇠 → 아이들 합창 음색 */
+          gain.gain.setValueAtTime(0, t);
+          gain.gain.linearRampToValueAtTime(0.26, t + 0.06);
+          gain.gain.setValueAtTime(0.26, t + beatSec * 0.55);
+          gain.gain.linearRampToValueAtTime(0, t + beatSec * 0.92);
+          osc.start(t);
+          osc.stop(t + beatSec * 0.95);
+        });
       });
 
       _bgLoopTimer = setTimeout(scheduleLoop, MELODY.length * beatSec * 1000 - 80);

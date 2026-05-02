@@ -17,6 +17,7 @@ const BUBBLE_CONFIGS = [
 ];
 
 let _poppedCount = 0;
+let _popCtx      = null;
 
 export function initHome() {
   const btnStart   = document.getElementById('btn-start');
@@ -49,20 +50,19 @@ export function initHome() {
 
 /* ── 비눗방울 초기화 ──────────────────────── */
 function _initBubbles() {
-  const scene = document.getElementById('bubble-scene');
+  const scene     = document.getElementById('bubble-scene');
+  const slotsWrap = document.getElementById('subtitle-slots');
   if (!scene) return;
 
   scene.innerHTML = '';
   _poppedCount    = 0;
 
-  const slots = document.querySelectorAll('.subtitle-slot');
-  slots.forEach(slot => {
-    slot.textContent = '';
-    slot.classList.remove('filled');
-  });
-
-  const slotsWrap = document.getElementById('subtitle-slots');
-  if (slotsWrap) slotsWrap.classList.remove('sentence-complete');
+  /* gather 애니메이션으로 교체됐을 수 있으므로 슬롯 DOM을 완전히 재생성 */
+  if (slotsWrap) {
+    slotsWrap.innerHTML = BUBBLE_WORDS
+      .map((_, i) => `<span class="subtitle-slot" data-idx="${i}"></span>`)
+      .join('');
+  }
 
   BUBBLE_WORDS.forEach((word, idx) => {
     const cfg    = BUBBLE_CONFIGS[idx];
@@ -95,6 +95,7 @@ function _popBubble(bubble, idx) {
   if (bubble.dataset.popped) return;
   bubble.dataset.popped = 'true';
   bubble.classList.add('popping');
+  _playPopSound();
 
   const bRect = bubble.getBoundingClientRect();
   const cx    = bRect.left + bRect.width  / 2;
@@ -137,7 +138,44 @@ function _popBubble(bubble, idx) {
 
 function _onAllPopped() {
   const slotsWrap = document.getElementById('subtitle-slots');
-  if (slotsWrap) slotsWrap.classList.add('sentence-complete');
+  if (!slotsWrap) return;
+
+  /* 단어들을 공백 하나씩 띄워 가운데로 모이게 */
+  const sentence = BUBBLE_WORDS.join(' ');
+  slotsWrap.innerHTML = `<span id="sentence-gathered" class="sentence-gathered">${sentence}</span>`;
+
+  /* gather 애니메이션 후 두 번 깜박임 */
+  setTimeout(() => {
+    const el = document.getElementById('sentence-gathered');
+    if (el) el.classList.add('sentence-blink');
+  }, 950);
+}
+
+/* ── 비눗방울 팝 사운드 (Web Audio API) ───── */
+function _playPopSound() {
+  try {
+    const Ctx = window.AudioContext || window.webkitAudioContext;
+    if (!Ctx) return;
+    if (!_popCtx || _popCtx.state === 'closed') _popCtx = new Ctx();
+    if (_popCtx.state === 'suspended') _popCtx.resume();
+
+    const ctx  = _popCtx;
+    const osc  = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    /* 550Hz → 70Hz 빠른 하강 — 비눗방울 팝 특유의 음감 */
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(550, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(70, ctx.currentTime + 0.09);
+
+    gain.gain.setValueAtTime(0.11, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.11);
+
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime + 0.13);
+  } catch (_) {}
 }
 
 /* ── 게임 문제 목록 결정 ──────────────────── */
