@@ -54,10 +54,7 @@ function _initBubbles() {
   const slotsWrap = document.getElementById('subtitle-slots');
   if (!scene) return;
 
-  /* 이전 gather로 숨겨진 요소들 원상 복구 */
-  [document.querySelector('.home-logo'), document.querySelector('.home-title')].forEach(el => {
-    if (el) el.style.cssText = '';
-  });
+  /* 이전 gather로 접힌 bubble-scene 원상 복구 */
   const _content = document.querySelector('.home-content');
   if (_content) { _content.style.transition = ''; _content.style.gap = ''; }
   scene.style.height = ''; scene.style.opacity = '';
@@ -164,8 +161,6 @@ function _onAllPopped() {
 
 function _gatherToCenter() {
   const toCollapse = [
-    document.querySelector('.home-logo'),
-    document.querySelector('.home-title'),
     document.getElementById('bubble-scene'),
   ].filter(Boolean);
 
