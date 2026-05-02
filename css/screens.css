@@ -1263,6 +1263,24 @@
   background: rgba(255,255,255,0.08);
   border-radius: var(--radius-sm);
   padding: 10px 12px;
+  cursor: pointer;
+  transition: background 0.25s ease;
+}
+.wrong-item.reviewed {
+  background: rgba(255,255,255,0.96);
+}
+.wrong-item.reviewed .wrong-item-ko {
+  color: #111111;
+}
+.wrong-item.reviewed .wrong-item-ko-text {
+  color: #111111;
+}
+.wrong-item.reviewed .wrong-speaker-btn {
+  background: rgba(0,0,0,0.06);
+  color: #444;
+}
+.wrong-item.reviewed .wrong-item-en {
+  color: #505050;
 }
 .wrong-item-ko {
   display: flex;
